@@ -32,6 +32,13 @@ html {
 
 .menu-button {
     width: 100%;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 1rem;
+}
+
+.menu-button:hover {
+    background-color: #7b7b7b;
 }
 
 .bright {
@@ -125,4 +132,25 @@ html {
     font-weight: bold;
     border: none;
     cursor: pointer;
+}
+
+.sidebar-closed {
+    opacity: 0;
+    background-color: #2F2F2F;
+    width: 0rem;
+    border-radius: 2rem;
+    box-sizing: border-box;
+    height: 80vh;
+    transition: all 0.3s;
+}
+
+.sidebar-open {
+    opacity: 1;
+    background-color: #2F2F2F;
+    width: 30%;
+    padding: 2rem;
+    border-radius: 2rem;
+    box-sizing: border-box;
+    height: 80vh;
+    transition: all 0.3s;
 }
