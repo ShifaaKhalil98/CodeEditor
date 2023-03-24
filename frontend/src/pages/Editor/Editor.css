@@ -122,6 +122,7 @@ html {
 
 .console-open span {
     cursor: pointer;
+    font-size: 0.8rem;
 }
 
 .console button {

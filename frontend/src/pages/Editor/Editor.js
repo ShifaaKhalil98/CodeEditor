@@ -11,10 +11,34 @@ export default function Editor() {
     const [console_open, setConsoleOpen] = useState(false)
     const [sidebar_open, setSidebarOpen] = useState(false)
     const [sidebar_selected, setSidebarSelected] = useState('')
+    const [code, setCode] = useState('')
+    const [compiled_result, setCompiledResult] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const openSideBar = (selected) => {
-        selected == sidebar_selected && setSidebarOpen(!sidebar_open)
+        (selected == sidebar_selected || !sidebar_open) && setSidebarOpen(!sidebar_open)
         setSidebarSelected(selected)
+    }
+
+    const compile = () => {
+        setConsoleOpen(true)
+        setLoading(true)
+        const code_data = new FormData()
+        code_data.append('code', code)
+        axios.post("http://localhost:8000/api/compile", code_data)
+        .then((res) => {
+          setCompiledResult(res.data.Result)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
+    const addTab = (event) => {
+        if(event.key === 'Tab') {
+            event.preventDefault()
+            setCode(code + '    ')
+        }
     }
     
     return (
@@ -41,16 +65,16 @@ export default function Editor() {
                     }
                 </div>
                 <div className='editor'>
-                    <textarea className='editor-input' placeholder='Write your code here...'></textarea>
+                    <textarea className='editor-input' placeholder='Write your code here...' value={code} onChange={e => setCode(e.target.value)} onKeyDown={e => addTab(e)} />
                 </div>
                 <div className={console_open ? 'console-open' : 'console'}>
                     <div className='button-container'>
-                        <button type='button' onClick={() => setConsoleOpen(true)}>Run</button>
+                        <button type='button' onClick={() => compile()}>Run</button>
                         <button type='button'>Save</button>
                         <button type='button'>Download</button>
                     </div>
                     {console_open && <span onClick={() => setConsoleOpen(false)}>Close Console >> </span>}
-                    {console_open && <textarea className='editor-input' placeholder='Write your code here...'></textarea>}
+                    {console_open && <textarea className='editor-input' value={compiled_result} readOnly></textarea>}
                 </div>
             </div>
         </div>
