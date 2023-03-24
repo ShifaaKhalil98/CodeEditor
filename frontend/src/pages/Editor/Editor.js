@@ -1,9 +1,10 @@
 import React, { Component, useState } from 'react'
 import axios from 'axios'
 import './Editor.css'
-import messages from '../../images/bubble.png'
-import search from '../../images/search.png'
-import files from '../../images/folder.png'
+import messages_pic from '../../images/bubble.png'
+import search_pic from '../../images/search.png'
+import files_pic from '../../images/folder.png'
+import loading_pic from '../../images/loading.gif'
 
 export default function Editor() {
     const [signed_in, setSignedIn] = useState(false)
@@ -27,9 +28,11 @@ export default function Editor() {
         code_data.append('code', code)
         axios.post("http://localhost:8000/api/compile", code_data)
         .then((res) => {
+            setLoading(false)
           setCompiledResult(res.data.Result)
         })
         .catch((err) => {
+            setLoading(false)
           console.log(err)
         })
     }
@@ -49,9 +52,9 @@ export default function Editor() {
             </div>
             <div className='editor-container'>
                 <div className='side-bar'>
-                    <img src={search} className="menu-button bright" onClick={() => openSideBar('search')}/>
-                    <img src={files} className="menu-button bright" onClick={() => openSideBar('files')}/>
-                    <img src={messages} className="menu-button" onClick={() => openSideBar('messages')}/>
+                    <img src={search_pic} className="menu-button bright" onClick={() => openSideBar('search')}/>
+                    <img src={files_pic} className="menu-button bright" onClick={() => openSideBar('files')}/>
+                    <img src={messages_pic} className="menu-button" onClick={() => openSideBar('messages')}/>
                 </div>
                 <div className={sidebar_open ? 'sidebar-open' : 'sidebar-closed'}>
                     {sidebar_selected == 'search' && 
@@ -69,9 +72,10 @@ export default function Editor() {
                 </div>
                 <div className={console_open ? 'console-open' : 'console'}>
                     <div className='button-container'>
-                        <button type='button' onClick={() => compile()}>Run</button>
+                        {loading ? <button type='button'><img src={loading_pic} /></button> : <button type='button' onClick={() => compile()}>Run</button>}
                         <button type='button'>Save</button>
                         <button type='button'>Download</button>
+                        {!console_open && <span onClick={() => setConsoleOpen(true)}> Open Console</span>}
                     </div>
                     {console_open && <span onClick={() => setConsoleOpen(false)}>Close Console >> </span>}
                     {console_open && <textarea className='editor-input' value={compiled_result} readOnly></textarea>}
