@@ -5,6 +5,7 @@ import messages_pic from '../../images/bubble.png'
 import search_pic from '../../images/search.png'
 import files_pic from '../../images/folder.png'
 import loading_pic from '../../images/loading.gif'
+import { saveAs } from 'file-saver'
 
 export default function Editor() {
     const [signed_in, setSignedIn] = useState(false)
@@ -44,6 +45,11 @@ export default function Editor() {
         }
     }
     
+    const downloadFile = () => {
+        const file = new Blob([code], {type: 'text/plain;charset=utf-8'})
+        saveAs(file, 'my_python_code.py')
+    }
+
     return (
         <div className='container'>
             <div className='header'>
@@ -74,7 +80,7 @@ export default function Editor() {
                     <div className='button-container'>
                         {loading ? <button type='button'><img src={loading_pic} /></button> : <button type='button' onClick={() => compile()}>Run</button>}
                         <button type='button'>Save</button>
-                        <button type='button'>Download</button>
+                        <button type='button' onClick={() => downloadFile()}>Download</button>
                         {!console_open && <span onClick={() => setConsoleOpen(true)}> Open Console</span>}
                     </div>
                     {console_open && <span onClick={() => setConsoleOpen(false)}>Close Console >> </span>}
