@@ -8,6 +8,7 @@ import files from '../../images/folder.png'
 export default function Editor() {
     const [signed_in, setSignedIn] = useState(false)
     const [user_photo, setUserPhoto] = useState()
+    const [console_open, setConsoleOpen] = useState(false)
 
     return (
         <div className='container'>
@@ -24,10 +25,14 @@ export default function Editor() {
                 <div className='editor'>
                     <textarea className='editor-input' placeholder='Write your code here...'></textarea>
                 </div>
-                <div className='console'>
-                    <button type='button'>Run</button>
-                    <button type='button'>Save</button>
-                    <button type='button'>Download</button>
+                <div className={console_open ? 'console-open' : 'console'}>
+                    <div className='button-container'>
+                        <button type='button' onClick={() => setConsoleOpen(true)}>Run</button>
+                        <button type='button'>Save</button>
+                        <button type='button'>Download</button>
+                    </div>
+                    {console_open && <span onClick={() => setConsoleOpen(false)}>Close Console >> </span>}
+                    {console_open && <textarea className='editor-input' placeholder='Write your code here...'></textarea>}
                 </div>
             </div>
         </div>
