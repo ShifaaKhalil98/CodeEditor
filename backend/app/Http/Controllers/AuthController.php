@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -95,6 +96,8 @@ class AuthController extends Controller
 <?php
 
 namespace App\Http\Controllers;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
