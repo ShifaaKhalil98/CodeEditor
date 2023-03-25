@@ -3,6 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Editor from "./pages/Editor/Editor";
 import UserList from "./pages/Admin";
+import Profile from "./pages/profile";
 
 import React from "react";
 // import ReactDOM from "react-dom";
@@ -13,7 +14,7 @@ function App() {
       {/* <Route exact path="/" element={<Home />} /> */}
       {/* <Route path="/login" element={<Login />} /> */}
       <Route path="/editor" element={<Editor />} />
-      {/* <Route path="/profile" element={<Profile />} /> */}
+      <Route path="/profile" element={<Profile />} />
       <Route path="/admin" element={<UserList />} />
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
