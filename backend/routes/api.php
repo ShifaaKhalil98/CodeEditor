@@ -23,9 +23,8 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(UserController::class)->group(function(){
     Route::get('/display_user/{id}','display_user');
-    Route::get('/search','search');
+    Route::get('/search','searchUsers');
     Route::get('/user_profile','user_profile');
-
 });
 
 Route::controller(CodeController::class)->group(function () {

@@ -18,7 +18,13 @@ class UserController extends Controller{
         return 'none';
     }
 
-    public function search(){}
+    public function searchUsers(Request $request){
+        $query = $request->input('q');
+
+        $users = User::where('name', 'like', '%'.$query.'%')->get();
+        
+        return response()->json($users);
+    }
 
     public function user_profile(){}
 }
