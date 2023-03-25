@@ -13,4 +13,8 @@ class Chat extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,"receiver_id")->select('id', 'name', 'profile_picture');
+    }
 }

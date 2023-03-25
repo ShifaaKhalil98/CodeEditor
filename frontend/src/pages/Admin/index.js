@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import user_image from "./kaspersky.png";
+import user_image from "../../images/profile-pic.png";
 import "./Admin.css";
 import search from "../../images/search.png";
 
@@ -10,7 +10,7 @@ function UserList() {
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/users")
-      .then((response) => console.log(response.data))
+      .then((response) => setUsers(response.data))
       .catch((error) => console.log(error));
   }, []);
 

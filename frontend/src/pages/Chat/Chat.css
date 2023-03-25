@@ -1,0 +1,16 @@
+html {
+  background-color: black;
+}
+:root {
+  --main: #09ffa7;
+  --grey: #575555;
+}
+.chat-card {
+  display: flex;
+  align-items: center;
+  column-gap: 1%;
+}
+.chat-card img {
+  height: 30px;
+  border-radius: 75px;
+}

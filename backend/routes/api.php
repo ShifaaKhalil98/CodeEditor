@@ -17,9 +17,10 @@ Route::controller(AuthController::class)->group(function () {
 });
 // Route::group(['middleware' => 'auth:api'], function(){
     Route::get('/users', [AdminController::class, 'users']);
-    Route::get('/chats', [ChatController::class, 'chats']);
-    Route::get('/single_chat', [ChatController::class, 'single_chat']);
+    Route::get('/getChats', [ChatController::class, 'getChats']);
+    // Route::get('/chat', [ChatController::class, 'getSingleChat']);
 // });
+
 
 Route::controller(UserController::class)->group(function(){
     Route::get('/display_user/{id}','display_user');
