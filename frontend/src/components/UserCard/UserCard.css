@@ -1,0 +1,40 @@
+.card-container {
+    align-items: center;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    background-color: rgb(32, 32, 32);
+    transition: all 0.3s;
+}
+
+.card-container:hover {
+    cursor: pointer;
+    background-color: rgb(58, 58, 58);
+    transition: all 0.3s;
+}
+
+.details {
+    gap: 1rem;
+    display: flex;
+    color: white;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+.details img {
+    width: 20%;
+    object-fit: contain;
+}
+
+.msg {
+    max-width: 10%;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.msg:hover {
+    cursor: pointer;
+    background-color: rgb(151, 151, 151);
+    max-width: 10%;
+}

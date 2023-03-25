@@ -158,3 +158,17 @@ button img {
     height: 80vh;
     transition: all 0.3s ease-out;
 }
+
+.search-bar {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-radius: 1rem;
+    border: none;
+    background-color: #1A1A1A;
+    color: white;
+}
+
+.search-bar:focus {
+    outline: none;
+}

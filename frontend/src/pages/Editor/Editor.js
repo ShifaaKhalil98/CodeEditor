@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Editor.css";
 import messages_pic from "../../images/bubble.png";
@@ -6,6 +6,7 @@ import search_pic from "../../images/search.png";
 import files_pic from "../../images/folder.png";
 import loading_pic from "../../images/loading.gif";
 import { saveAs } from "file-saver";
+import UserCard from "../../components/UserCard/UserCard";
 
 export default function Editor() {
   const [signed_in, setSignedIn] = useState(false);
@@ -16,6 +17,25 @@ export default function Editor() {
   const [code, setCode] = useState("");
   const [compiled_result, setCompiledResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const [search_val, setSearchVal] = useState('');
+  const [search_res, setSearchRes] = useState([])
+
+  useEffect(() => {
+    if(search_val.length > 0) {
+        axios
+      .get(`http://localhost:8000/api/search?q=${search_val}`)
+      .then((res) => {
+        console.log(res.data)
+        setSearchRes(res.data)
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+    } else {
+        setSearchRes([])
+    }
+  }, [search_val])
 
   const openSideBar = (selected) => {
     (selected == sidebar_selected || !sidebar_open) &&
@@ -81,7 +101,12 @@ export default function Editor() {
           />
         </div>
         <div className={sidebar_open ? "sidebar-open" : "sidebar-closed"}>
-          {sidebar_selected == "search" && <div>Search</div>}
+          {sidebar_selected == "search" && <div>
+            <input className="search-bar" value={search_val} onChange={(e) => setSearchVal(e.target.value)}/>
+            {search_res && search_res.map((user) => (
+                <UserCard name={user.name} />
+            ))}
+            </div>}
           {sidebar_selected == "files" && <div>Files</div>}
           {sidebar_selected == "messages" && <div>Messages</div>}
         </div>
