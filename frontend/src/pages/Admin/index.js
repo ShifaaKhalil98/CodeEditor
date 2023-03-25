@@ -9,17 +9,17 @@ function UserList() {
 
   useEffect(() => {
     axios
-      .get("/api/users")
+      .get("http://localhost:8000/api/users")
       .then((response) => setUsers(response.data))
       .catch((error) => console.log(error));
   }, []);
 
   return (
     <>
-      <div className="header">
+      <div className="nav">
         <h1>CODING</h1>
         <div>
-          <img src={search} className="menu-button bright" />
+          <img src={search} className="search" />
         </div>
       </div>
       <div className="container">
@@ -43,7 +43,7 @@ function UserList() {
               {users.map((user) => (
                 <tr key={user.id}>
                   <td>{user.name}</td>
-                  <td> ({user.email})</td>
+                  <td> {user.email}</td>
                   <td>{user.profile_picture}</td>
                   {/* <td>{user.name}</td> */}
                   <td>Browse</td>

@@ -53,7 +53,7 @@ export default function Editor() {
   };
 
   return (
-    <div className="container">
+    <div>
       <div className="header">
         <h1>CODING</h1>
         {signed_in ? (
