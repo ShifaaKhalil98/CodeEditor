@@ -6,7 +6,15 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CodeController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuthController;
 
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
+
+});
 // Route::group(['middleware' => 'auth:api'], function(){
     Route::get('/users', [AdminController::class, 'users']);
     Route::get('/chats', [ChatController::class, 'chats']);
