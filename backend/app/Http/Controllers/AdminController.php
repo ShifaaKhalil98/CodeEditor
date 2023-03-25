@@ -12,11 +12,15 @@ class AdminController extends Controller{
  
         // if($user){
             $users = User::all();
-            return response()->json([
-                'status' => 'success',
-                'data' => $users,
-            ]);
+            foreach ($users as $user) {
+                return response()->json([
+                    'status' => 'success',
+                    'data' => ['name'=>$user->name, 'email'=>$user->email, 'profile_picture'=>$user->profile_picture],
+                ]);
+            }
         // }
     }
 
 }
+
+ 

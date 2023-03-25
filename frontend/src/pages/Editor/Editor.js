@@ -35,7 +35,7 @@ export default function Editor() {
         setCompiledResult(res.data.Result);
       })
       .catch((err) => {
-        // setLoading(false)
+        setLoading(false);
         console.log(err);
       });
   };
