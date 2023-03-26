@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller{
@@ -22,30 +23,36 @@ class ChatController extends Controller{
     public function getSingleChat(Request $request){
         
         $chat_id = $request->chat_id;
+        $chat = Chat::find($chat_id);
+        $receiver_id = $chat->receiver_id;
+        $receiver = User::find($receiver_id);
 
         $messages = Message::with(['chat'])->where('chat_id', $chat_id)->get();
 
+        // $response = [
+        //     'receiver'=> $receiver,
+        //     'messages'=> $messages,
+        // ];
+
+
+        // $receiver = User::with(['chat'])->where('id', $receiver_id)->get();
+
         return response()->json($messages);
     }
-    // public function getSingleChat(Request $request){
-    //     $chat = Chat::find($request->chat_id);
 
-    //     $messages = Message::where($request->chat_id)->get();
-    //     return response()->json(['chat' => $chat, 'messages'=>$messages]);
+    public function sendMessage(Request $request){
 
-    // }
+        
+        $message = new Message();
+        $message->chat_id = $request->chat_id;;
+        $message->sender_id = $request->sender_id;
+        // $message->sender_id = Auth::id();
+        $message->content = $request->content;
+        $message->save();
 
-    // public function sendMessage(Request $request, Chat $chat){
-
-    //    $message = new Message();
-    //     $message->chat_id = $chat->id;
-    //     // $message->user_id = Auth::id();
-    //     $message->content = $request->content;
-    //     $message->save();
-
-    //     // return response()->json(['status' => 'success']);
-    //     return redirect()->back();
-    // }
+        // return response()->json(['status' => 'success']);
+        return redirect()->back();
+    }
 }
 
 

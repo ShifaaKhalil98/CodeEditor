@@ -20,7 +20,7 @@ export default function Editor() {
   const [search_val, setSearchVal] = useState("");
   const [search_res, setSearchRes] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [chatData, setChatData] = useState([]);
   const [chats, setChats] = useState([]);
 
   const handleChatClick = (chat_id) => {
@@ -113,7 +113,7 @@ export default function Editor() {
     useEffect(() => {
       axios
         .get("http://127.0.0.1:8000/api/getSingleChat/1")
-        .then((response) => setMessages(response.data))
+        .then((response) => setChatData(response.data))
         .catch((error) => console.log(error));
     }, []);
 
@@ -128,7 +128,7 @@ export default function Editor() {
             {chat.user.name.charAt(0).toUpperCase() + chat.user.name.slice(1)}
           </h2>
         </div> */}
-        {messages.map((message) => (
+        {chatData.map((message) => (
           <div key={message.id}>
             <h4>{message.content}</h4>
           </div>

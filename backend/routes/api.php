@@ -19,6 +19,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/users', [AdminController::class, 'users']);
     Route::get('/getChats', [ChatController::class, 'getChats']);
     Route::get('/getSingleChat/{chat_id}', [ChatController::class, 'getSingleChat']);
+    Route::get('/sendMessage/{chat_id}/{content}/{sender_id}', [ChatController::class, 'sendMessage']);
 // });
 
 
