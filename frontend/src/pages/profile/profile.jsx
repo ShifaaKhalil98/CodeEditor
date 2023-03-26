@@ -22,18 +22,23 @@ const Profile = () => {
     };
 
     getFiles();
-  }, [])
+  }, []);
   const handleFileOpen = (fileName) => {
     setSelectedFile(fileName);
   };
-  const handleFiledelete = (fileName){
-    axios.delete('http://localhost:8000/api/deletefile')
-    .then((res)=>setSelectedFile(res.data))
-    .catch((err)=>{
-      console.log(err);
-    })
-  }
-// didndt text the data
+  const handleFileDelete = (fileName) => {
+    axios
+      .delete(`/api/files/${fileName}`)
+      .then(() => {
+        axios.get("/api/getfiles").then((response) => {
+          setFiles(response.data);
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  // didndt text the data
 
   return (
     <div>
@@ -48,8 +53,8 @@ const Profile = () => {
           <div className="file-container">
             <File
               fileName={"1"}
-              openeditor={handleFileOpen}
-              deleteFile={() => handleFiledelete}
+              openeditor={() => handleFileOpen}
+              deleteFile={() => handleFileDelete}
             />
           </div>
         </div>
