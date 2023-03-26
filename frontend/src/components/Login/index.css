@@ -1,0 +1,37 @@
+
+section{
+    width: 100%;
+    max-width: 420px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1rem;
+  
+}
+label {
+    color: #999;
+   /* position: absolute;*/
+    pointer-events: none;
+    left: 10px;
+    top: 10px;
+    transition: 0.2s;
+    
+  }
+
+  input:focus ~ label,
+  input:valid ~ label {
+    top: -10px;
+    left: 15px;
+    font-size: small;
+    color: var(--purple);
+    background-color: rgb(0, 0, 0);
+    padding: 0 5px 0 5px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    padding-bottom: 1rem;
+  }
