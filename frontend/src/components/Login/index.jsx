@@ -1,4 +1,7 @@
 import { useRef, useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom"
+
 import "./index.css";
 const Login = () => {
   const userRef = useRef();
@@ -7,6 +10,11 @@ const Login = () => {
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [validationErrors, setValidationErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
   useEffect(() => {
     userRef.current.focus();
   }, []);
@@ -14,6 +22,39 @@ const Login = () => {
     setErrMsg("");
   }, [user, pwd]);
 
+  
+ 
+    useEffect(()=>{
+        if(localStorage.getItem('token') != "" && localStorage.getItem('token') != null){
+            navigate("/dashboard");
+        }
+        console.log(localStorage.getItem('token'))
+    },[])
+ 
+    const loginAction = (e) => {
+        setValidationErrors({})
+        e.preventDefault();
+        setIsSubmitting(true)
+        let payload = {
+            email:email,
+            password:password,
+        }
+        axios.post('http://localhost:8000/auth/api/login', payload)
+        .then((r) => {
+            setIsSubmitting(false)
+            localStorage.setItem('token', r.data.token)
+            navigate("/editor");
+        })
+        .catch((e) => {
+            setIsSubmitting(false)
+            if (e.response.data.errors != undefined) {
+                setValidationErrors(e.response.data.errors);
+            }
+            if (e.response.data.error != undefined) {
+                setValidationErrors(e.response.data.error);
+            }
+        });
+    }
   return (
     <>
       {success ? (
@@ -32,8 +73,8 @@ const Login = () => {
             {errMsg}
           </p>
           <h1 className="title">Sign In</h1>
-          <form  className="login">
-            <label For="email">Username:</label>
+          <form onSubmit={(e)=>{loginAction(e)}} className="login">
+            <label For="email">Email:</label>
             <input
               type="email"
               id="eamil"
