@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CodeController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserDataController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AuthController;
 
 Route::controller(AuthController::class)->group(function () {
@@ -25,10 +26,14 @@ Route::controller(AuthController::class)->group(function () {
 // });
 
 
-Route::controller(UserController::class)->group(function(){
+Route::controller(UserDataController::class)->group(function(){
     Route::get('/display_user/{id}','display_user');
-    Route::get('/search','searchUsers');
     Route::get('/user_profile','user_profile');
+    Route::middleware('auth:api')->get('/getfiles', 'getFiles');
+});
+
+Route::controller(UsersController::class)->group(function(){
+    Route::get('/search','searchUsers');
 });
 
 Route::controller(CodeController::class)->group(function () {

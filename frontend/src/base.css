@@ -1,0 +1,74 @@
+/* import fonts */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.flex {
+  display: flex;
+}
+/* justify content */
+.jc-center {
+  justify-content: center;
+}
+.jc-sa {
+  justify-content: space-around;
+}
+.jc-sb {
+  justify-content: space-between;
+}
+.jc-se {
+  justify-content: space-evenly;
+}
+.jc-fs {
+  justify-content: flex-start;
+}
+.jc-fe {
+  justify-content: flex-end;
+}
+/* align items */
+.ai-center {
+  align-items: center;
+}
+.ai-fe {
+  align-items: flex-end;
+}
+.ai-fs {
+  align-items: flex-start;
+}
+/* flex direction */
+.fd-column {
+  flex-direction: column;
+}
+/* flex wrap */
+.fw-wrap {
+  flex-wrap: wrap;
+}
+/*  text align */
+.text-center {
+  text-align: center;
+}
+/* text sizes */
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.p {
+  font-size: 0.5rem;
+  font-weight: 300;
+}
+.h3 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+/*  flex grow */
+.flex-grow {
+  flex-grow: 2;
+}
+/* hide */
+.hide {
+  display: none;
+}
