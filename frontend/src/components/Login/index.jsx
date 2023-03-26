@@ -17,8 +17,8 @@ const Login = () => {
   return (
     <>
       {success ? (
-        <section>
-          <h1>You are logged in!</h1>
+        <section className="section">
+          <h1 >You are logged in!</h1>
           <br />
           <p>{/* <a href="#">Go to Home</a> */}</p>
         </section>
@@ -31,8 +31,8 @@ const Login = () => {
           >
             {errMsg}
           </p>
-          <h1>Sign In</h1>
-          <form >
+          <h1 className="title">Sign In</h1>
+          <form  className="login">
             <label For="email">Username:</label>
             <input
               type="email"
@@ -51,7 +51,7 @@ const Login = () => {
               value={pwd}
               required
             />
-            <button>Sign In</button>
+            <button className="sign_in">Sign In</button>
             <a href="#">Already registered?</a>
           </form>
             
