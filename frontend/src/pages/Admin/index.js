@@ -6,11 +6,19 @@ import search from "../../images/search.png";
 
 function UserList() {
   const [users, setUsers] = useState([]);
+  const [admin, setAdmin] = useState([]);
 
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/users")
       .then((response) => setUsers(response.data))
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/getAdmin")
+      .then((response) => setAdmin(response.data))
       .catch((error) => console.log(error));
   }, []);
 
@@ -24,8 +32,12 @@ function UserList() {
       </div>
       <div className="container">
         <div className="admin-card">
-          <img src={user_image} alt="My Image" />
-          <h1>name</h1>
+          {admin.map((ad) => (
+            <div key={ad.id}>
+              <img src={ad.profile_picture} alt="Admin" />
+              <h2>{ad.name.charAt(0).toUpperCase() + ad.name.slice(1)}</h2>
+            </div>
+          ))}
         </div>
         <div className="user-list">
           <h2>Users Statistics</h2>
@@ -45,7 +57,6 @@ function UserList() {
                   <td>{user.name}</td>
                   <td> {user.email}</td>
                   <td>{user.profile_picture}</td>
-                  {/* <td>{user.name}</td> */}
                   <td>Browse</td>
                 </tr>
               ))}

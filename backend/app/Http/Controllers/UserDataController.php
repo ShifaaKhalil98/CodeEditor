@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\File;
 
 class UserDataController extends Controller{
 
@@ -17,6 +18,16 @@ class UserDataController extends Controller{
             ]);
         }
         return 'none';
+    }
+
+    public function getFiles(Request $request) {
+        $user = $request->user();
+        $id = $user->id;
+
+        $files = File::where('user_id', $id)->get();
+
+        return response()->json($files);
+
     }
 
     public function user_profile(){}

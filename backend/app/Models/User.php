@@ -11,11 +11,11 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    public function chat()
+    {
+        return $this->hasMany(Chat::class);
+    }
+
     protected $fillable = [
         'name',
         'email',
