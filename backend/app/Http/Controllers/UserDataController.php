@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserController extends Controller{
+class UserDataController extends Controller{
 
     public function display_user(User $user) {
      
@@ -17,14 +17,6 @@ class UserController extends Controller{
             ]);
         }
         return 'none';
-    }
-
-    public function searchUsers(Request $request){
-        $query = $request->input('q');
-
-        $users = User::where('name', 'like', '%'.$query.'%')->get();
-        
-        return response()->json($users);
     }
 
     public function user_profile(){}
