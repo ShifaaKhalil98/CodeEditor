@@ -24,9 +24,8 @@ Route::controller(AuthController::class)->group(function () {
 // });
 
 
-Route::controller(UserDataController::class)->group(function(){
+Route::controller(UserDataController::class)->group(['middleware' => 'auth:api'], function(){
     Route::get('/display_user/{id}','display_user');
-    Route::get('/search','searchUsers');
     Route::get('/user_profile','user_profile');
 });
 
