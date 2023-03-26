@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\File;
 
 class UserDataController extends Controller{
@@ -28,6 +29,20 @@ class UserDataController extends Controller{
 
         return response()->json($files);
 
+    }
+
+    public function saveFile(Request $request) {
+        $id = Auth::user()->id;
+        $name = $request->input('name');
+        $content = $request->input('content');
+
+        $file = File::create([
+            'user_id' => $id,
+            'name' => $name,
+            'content' => $content
+        ]);
+
+        return response()->json($file);
     }
 
     public function deletefile($id){
