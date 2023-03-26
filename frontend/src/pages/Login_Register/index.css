@@ -1,0 +1,7 @@
+.flex{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-around;
+
+}
+.login{text-align: center;}
