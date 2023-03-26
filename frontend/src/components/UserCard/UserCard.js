@@ -1,6 +1,6 @@
 import "./UserCard.css";
 import React, { useState, useEffect } from "react";
-import profile_pic from "../../images/profile-pic.png";
+import profile_pic from "../../images/profile_pic.png";
 import bubble from "../../images/bubble.png";
 
 const UserCard = ({ name, pic = null }) => {
