@@ -9,13 +9,32 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [pic, sePic] = useState(pic);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [files, setFiles] = useState([]);
 
+  useEffect(() => {
+    const getFiles = async () => {
+      try {
+        const response = await axios.get("/api/getfiles");
+        setFiles(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getFiles();
+  }, [])
   const handleFileOpen = (fileName) => {
     setSelectedFile(fileName);
   };
   const handleFiledelete = (fileName){
-    axios.
+    axios.delete('http://localhost:8000/api/deletefile')
+    .then((res)=>setSelectedFile(res.data))
+    .catch((err)=>{
+      console.log(err);
+    })
   }
+// didndt text the data
+
   return (
     <div>
       <div className="nav-main">
