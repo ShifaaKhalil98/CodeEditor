@@ -23,6 +23,7 @@ export default function Editor() {
   const [chatData, setChatData] = useState([]);
   const [chats, setChats] = useState([]);
   const [receiver, setReceiver] = useState([]);
+  const [is_readonly, setReadOnly] = useState(true);
   const [messageContent, setMessageContent] = useState("");
 
   const handleChatClick = (chat_id) => {
@@ -79,22 +80,39 @@ export default function Editor() {
     setSidebarSelected(selected);
   };
 
-  const compile = () => {
-    setConsoleOpen(true);
-    setLoading(true);
-    const code_data = new FormData();
-    code_data.append("code", code);
-    axios
-      .post("http://localhost:8000/api/compile", code_data)
-      .then((res) => {
-        setLoading(false);
-        setCompiledResult(res.data.Result);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+  const compile = (input) => {
+    console.log(input)
+    if (/\b(input|raw_input)\(/.test(code) && !input) {
+        console.log('isinput')
+        setConsoleOpen(true)
+        setCompiledResult(code.match(/input\(['"](.*)['"]\)/)[1] + ': ')
+        setReadOnly(false)
+    } else {
+        setConsoleOpen(true)
+        setLoading(true)
+        const code_data = new FormData()
+        code_data.append("code", code)
+        input && code_data.append('input', input)
+        axios
+          .post("http://localhost:8000/api/compile", code_data)
+          .then((res) => {
+            setLoading(false)
+            setCompiledResult(res.data.Result)
+            setReadOnly(true)
+          })
+          .catch((err) => {
+            setLoading(false)
+            console.log(err)
+          });
+    }
   };
+
+  const checkEnter = (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        compile(compiled_result.split(": ")[1].trim())
+      }
+  }
 
   const addTab = (event) => {
     if (event.key === "Tab") {
@@ -276,7 +294,9 @@ export default function Editor() {
             <textarea
               className="editor-input"
               value={compiled_result}
-              readOnly
+              onChange = {e => setCompiledResult(e.target.value)}
+              onKeyDown={(e) => checkEnter(e)}
+              readOnly = {is_readonly}
             ></textarea>
           )}
         </div>
