@@ -25,6 +25,11 @@ class AdminController extends Controller{
             return response()->json($response);
         // }
     }
+    public function getAdmin(){
+        $admin = User::where('user_type' ,'like', 'admin')->get();
+
+        return response()->json($admin);
+    }
 
 }
 

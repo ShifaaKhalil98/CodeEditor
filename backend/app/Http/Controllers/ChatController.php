@@ -40,9 +40,18 @@ class ChatController extends Controller{
         return response()->json($messages);
     }
 
+    public function getReceiver(){
+
+        $chat_id = 5;
+        $chat = Chat::find($chat_id);
+        $receiver_id = $chat->receiver_id;
+        $receiver = User::where('id', $receiver_id)->get();
+
+        return response()->json($receiver);
+    } 
+    
     public function sendMessage(Request $request){
 
-        
         $message = new Message();
         $message->chat_id = $request->chat_id;;
         $message->sender_id = $request->sender_id;

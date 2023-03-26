@@ -22,9 +22,38 @@ export default function Editor() {
   const [activeChat, setActiveChat] = useState(null);
   const [chatData, setChatData] = useState([]);
   const [chats, setChats] = useState([]);
+  const [receiver, setReceiver] = useState([]);
+  const [messageContent, setMessageContent] = useState("");
 
   const handleChatClick = (chat_id) => {
     setActiveChat(chat_id);
+  };
+
+  const handleInputChange = (event) => {
+    setMessageContent(event.target.value);
+  };
+
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sendMessage(messageContent);
+      setChatData("");
+    }
+  }
+
+  const sendMessage = (event) => {
+    // event.preventDefault();
+    const data = {
+      chat_id: activeChat.id,
+      content: messageContent,
+    };
+    axios
+      .post(`http://localhost:8000/api/sendMessage`, data)
+      .then((response) => {
+        setChatData([...chatData, response.data]);
+        setMessageContent("");
+      })
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -117,22 +146,48 @@ export default function Editor() {
         .catch((error) => console.log(error));
     }, []);
 
+    useEffect(() => {
+      axios
+        .get("http://localhost:8000/api/getReceiver")
+        .then((response) => setReceiver(response.data))
+        .catch((error) => console.log(error));
+    }, []);
+
     return (
       <>
-        {/* <div className="chat-head">
-          <button type="button" onClick="">
-            {"\u2190"}
-          </button>
-          <img src={chat.user.profile_picture} alt="User" />
-          <h2>
-            {chat.user.name.charAt(0).toUpperCase() + chat.user.name.slice(1)}
-          </h2>
-        </div> */}
-        {chatData.map((message) => (
-          <div key={message.id}>
-            <h4>{message.content}</h4>
+        <div>
+          {receiver.map((res) => (
+            <div key={res.id} className="chat-head">
+              <button type="button" onClick={() => setActiveChat(null)}>
+                {"\u2190"}
+              </button>
+              <img src={res.profile_picture} alt="user" />
+              <h2>{res.name.charAt(0).toUpperCase() + res.name.slice(1)}</h2>
+            </div>
+          ))}
+        </div>
+        <div className="chat-head"></div>
+        <div className="chat-container">
+          <div>
+            {chatData.map((message) => (
+              <div key={message.id}>
+                <h4>{message.content}</h4>
+              </div>
+            ))}
           </div>
-        ))}
+          <div>
+            <form>
+              <input
+                className="message-input"
+                type="text"
+                placeholder="Type a message..."
+                value={messageContent}
+                onChange={(e) => handleInputChange(e)}
+                onKeyDown={(e) => handleKeyDown(e)}
+              />
+            </form>
+          </div>
+        </div>
       </>
     );
   };
