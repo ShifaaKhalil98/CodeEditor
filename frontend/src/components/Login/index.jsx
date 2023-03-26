@@ -15,9 +15,9 @@ const Login = () => {
     const [password, setPassword] = useState("")
     const [validationErrors, setValidationErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, []);
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd]);
@@ -35,11 +35,10 @@ const Login = () => {
         setValidationErrors({})
         e.preventDefault();
         setIsSubmitting(true)
-        let payload = {
-            email:email,
-            password:password,
-        }
-        axios.post('http://localhost:8000/auth/api/login', payload)
+        const login_data = new FormData()
+        login_data.append('email', email)
+        login_data.append('password', pwd)
+        axios.post('http://localhost:8000/api/login', login_data)
         .then((r) => {
             setIsSubmitting(false)
             localStorage.setItem('token', r.data.token)
@@ -78,10 +77,9 @@ const Login = () => {
             <input
               type="email"
               id="eamil"
-              ref={userRef}
               autoComplete="off"
-              onChange={(e) => setUser(e.target.value)}
-              value={user}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               required
             />
             <label htmlFor="password">Password:</label>
