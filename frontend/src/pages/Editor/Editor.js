@@ -41,7 +41,7 @@ export default function Editor() {
     }
   }
 
-  const sendMessage = (event) => {
+  const sendMessage = () => {
     // event.preventDefault();
     const data = {
       chat_id: activeChat.id,
@@ -141,7 +141,7 @@ export default function Editor() {
   const Conv = ({ chat_id }) => {
     useEffect(() => {
       axios
-        .get("http://127.0.0.1:8000/api/getSingleChat/1")
+        .get(`http://127.0.0.1:8000/api/getSingleChat/${chat_id}`)
         .then((response) => setChatData(response.data))
         .catch((error) => console.log(error));
     }, []);
@@ -156,15 +156,13 @@ export default function Editor() {
     return (
       <>
         <div>
-          {receiver.map((res) => (
-            <div key={res.id} className="chat-head">
-              <button type="button" onClick={() => setActiveChat(null)}>
-                {"\u2190"}
-              </button>
-              <img src={res.profile_picture} alt="user" />
-              <h2>{res.name.charAt(0).toUpperCase() + res.name.slice(1)}</h2>
-            </div>
-          ))}
+          <div key={receiver.id} className="chat-head">
+            <button type="button" onClick={() => setActiveChat(null)}>
+              {"\u2190"}
+            </button>
+            <img src={receiver.profile_picture} alt="user" />
+            <h2>{receiver.name}</h2>
+          </div>
         </div>
         <div className="chat-head"></div>
         <div className="chat-container">
