@@ -6,6 +6,9 @@ import File from "../../components/filediv";
 import "../../../src/base.css";
 import "./style.css";
 const profile = () => {
+  // axios(map to file name and id(for delete) and also a query to get username);
+  // base64
+
   return (
     <div>
       <div className="nav-main">

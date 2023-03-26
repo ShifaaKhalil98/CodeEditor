@@ -2,19 +2,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../../src/base.css";
-// import profile-pic from "../../images/profile-pic.png";
+import profile_pic from "../../images/profile_pic.png";
 
-const ProfileCard = ({ name, pic }) => {
-  const [fullName, setfullName] = useState(name);
-  const [profilePic, setProfilePic] = useState(pic);
+const ProfileCard = ({ name, pic = null }) => {
+  // const [fullName, setfullName] = useState(name);
+  // const [profilePic, setProfilePic] = useState(pic);
 
   return (
     <div className="profile-card flex fd-column jc-center ">
       <div className="image">
-        <img src={profilePic} alt="pic" />
+        <img src={pic ? pic : profile_pic} />
       </div>
       <div className="name">
-        <h2>{fullName}</h2>
+        <h2>{name}</h2>
       </div>
     </div>
   );
