@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/Navbar/index.jsx";
 import ProfileCard from "../../components/profileCard/ProfileCard";
 import File from "../../components/filediv";
 import "../../../src/base.css";
