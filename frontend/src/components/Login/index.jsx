@@ -33,10 +33,10 @@ const Login = () => {
           </p>
           <h1>Sign In</h1>
           <form >
-            <label htmlFor="username">Username:</label>
+            <label For="email">Username:</label>
             <input
-              type="text"
-              id="username"
+              type="email"
+              id="eamil"
               ref={userRef}
               autoComplete="off"
               onChange={(e) => setUser(e.target.value)}
@@ -52,14 +52,12 @@ const Login = () => {
               required
             />
             <button>Sign In</button>
+            <a href="#">Already registered?</a>
           </form>
-          <p>
-            Need an Account?
-            <br />
-            <span className="line">
-              <a href="#">Sign Up</a>
-            </span>
-          </p>
+            
+             
+            
+          
         </section>
       )}
     </>

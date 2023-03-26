@@ -30,5 +30,13 @@ class UserDataController extends Controller{
 
     }
 
-    public function user_profile(){}
+    public function deletefile($id){
+        $file = File::find( $id);
+        if (!$file){
+            return response(['error' => 'file is not found']);
+        } 
+        $file ->delete();
+        return response()->json(['message'=>'File deleted succefully']);
+    }
+  
 }
