@@ -5,32 +5,48 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller{
 
-    public function chats(){
+    public function getChats(){
 
-        // $chats = Auth::user()->chats;
-        $chats = Chat::all();
+        $sender_id = 4;
+        // $sender_id = auth()->user();
+
+        $chats = Chat::with(['user'])->where('sender_id', $sender_id)->get();
+            
+            return response()->json($chats);
+    }
+    
+    public function getSingleChat(Request $request){
         
-        // Return the messages view, passing in the messages variable
-        return response()->json(['data' => $chats]);
+        $chat_id = $request->chat_id;
+        $chat = Chat::find($chat_id);
+        $receiver_id = $chat->receiver_id;
+        $receiver = User::find($receiver_id);
+
+        $messages = Message::with(['chat'])->where('chat_id', $chat_id)->get();
+
+        // $response = [
+        //     'receiver'=> $receiver,
+        //     'messages'=> $messages,
+        // ];
+
+
+        // $receiver = User::with(['chat'])->where('id', $receiver_id)->get();
+
+        return response()->json($messages);
     }
 
-    public function single_chat(Request $request){
-        $chat = Chat::find($request->chat_id);
+    public function sendMessage(Request $request){
 
-        $messages = Message::where($request->chat_id)->get();
-        return response()->json(['chat' => $chat, 'messages'=>$messages]);
-
-    }
-
-    public function send_message(Request $request, Chat $chat){
-
-       $message = new Message();
-        $message->chat_id = $chat->id;
-        // $message->user_id = Auth::id();
+        
+        $message = new Message();
+        $message->chat_id = $request->chat_id;;
+        $message->sender_id = $request->sender_id;
+        // $message->sender_id = Auth::id();
         $message->content = $request->content;
         $message->save();
 
@@ -39,3 +55,48 @@ class ChatController extends Controller{
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+// public function getConvo(Request $request)
+// {
+    
+//     $user = $request->user();
+//     $id = $user->id;
+//     $newconvo = null;
+
+//     if($request->query('convo_id') == null) {
+//         $target_user = $request->query('target_user');
+//         $convo = Conversation::where('user_one_id', $id)->where('user_two_id', $target_user)->first();
+//         if($convo) {
+//             $convo_id = $convo->id;
+//             $messages = Message::with('User')->where('conversation_id', $convo_id)->orderBy('created_at', 'ASC')->get();
+//             $newconvo = $convo;
+//         } else {
+//             $messages = [];
+//             $newconvo = Conversation::Create([
+//                 'user_one_id' => $id,
+//                 'user_two_id' => $target_user
+//             ]);
+//         };
+//         return response()->json([
+//             'messages' => $messages,
+//             'convo_id' => $newconvo->id
+//         ]);
+//     } else {
+//         $convo_id = $request->query('convo_id');
+//         $messages = Message::with('User')->where('conversation_id', $convo_id)->orderBy('created_at', 'ASC')->get();
+//         return response()->json([
+//             'messages' => $messages
+//         ]);
+//     }
+// }

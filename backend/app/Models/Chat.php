@@ -9,8 +9,12 @@ class Chat extends Model
 {
     use HasFactory;
 
-    public function messages()
+    public function message()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,"receiver_id")->select('id', 'name', 'profile_picture');
     }
 }

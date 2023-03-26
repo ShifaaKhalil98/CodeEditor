@@ -17,7 +17,9 @@ class AdminController extends Controller{
             foreach ($users as $user) {
                $response[]=[
                     'status' => 'success',
-                    'data' => ['name'=>$user->name, 'email'=>$user->email, 'profile_picture'=>$user->profile_picture],
+                    'name'=> $user->name, 
+                    'email'=> $user->email, 
+                    'profile_picture'=> $user->profile_picture,
                 ];
             }
             return response()->json($response);
