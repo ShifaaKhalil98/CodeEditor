@@ -8,25 +8,29 @@ use Illuminate\Http\Request;
 class AdminController extends Controller{
 
     public function users() {
-        // $user = auth()->user();
+        // $admin = auth()->user();
  
-        // if($user){
-            $users = User::all();
+        // if($admin){
+
+            $users = User::withCount('files')->get();
+
             $response = [];
 
             foreach ($users as $user) {
-               $response[]=[
+                $response[] = [
                     'status' => 'success',
-                    'name'=> $user->name, 
-                    'email'=> $user->email, 
-                    'profile_picture'=> $user->profile_picture,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'profile_picture' => $user->profile_picture,
+                    'files_count' => $user->files_count,
                 ];
             }
+            
             return response()->json($response);
-        // }
     }
+
     public function getAdmin(){
-        $admin = User::where('user_type' ,'like', 'admin')->get();
+        $admin = User::where('user_type' ,'admin')->get();
 
         return response()->json($admin);
     }

@@ -11,9 +11,14 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
-    public function chat()
-    {
+    public function chat(){
+
         return $this->hasMany(Chat::class);
+    }
+
+    public function files(){
+        
+        return $this->hasMany(File::class);
     }
 
     protected $fillable = [

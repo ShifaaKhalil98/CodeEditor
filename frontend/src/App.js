@@ -5,7 +5,7 @@ import Editor from "./pages/Editor/Editor";
 import UserList from "./pages/Admin";
 import Profile from "./pages/profile/profile";
 import React from "react";
-import Login_Register from './pages/Login_Register/index'
+import Login_Register from "./pages/Login_Register/index";
 // import ReactDOM from "react-dom";
 
 function App() {
