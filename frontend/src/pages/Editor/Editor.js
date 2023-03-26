@@ -7,6 +7,7 @@ import files_pic from "../../images/folder.png";
 import loading_pic from "../../images/loading.gif";
 import { saveAs } from "file-saver";
 import UserCard from "../../components/UserCard/UserCard";
+import FileCard from "../../components/FileCard/FileCard";
 
 export default function Editor() {
   const [signed_in, setSignedIn] = useState(false);
@@ -25,6 +26,34 @@ export default function Editor() {
   const [receiver, setReceiver] = useState([]);
   const [is_readonly, setReadOnly] = useState(true);
   const [messageContent, setMessageContent] = useState("");
+  const [filename, setFilename] = useState('');
+  const [user_files, setUserFiles] = useState();
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const handleSave = () => {
+    const code_data = new FormData()
+    code_data.append("content", code)
+    code_data.append("name", filename)
+    const token = localStorage.getItem('token')
+    axios
+          .post("http://localhost:8000/api/savefile", code_data, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }})
+          .then((res) => {
+            setPopupOpen(false)
+          })
+          .catch((err) => {
+            console.log(err)
+          });
+  };
+
+  const handleSaveClick = () => {
+    if(code.length > 0) {
+        setFilename('');
+        setPopupOpen(true);
+    }
+  };
 
   const handleChatClick = (chat_id) => {
     setActiveChat(chat_id);
@@ -58,6 +87,10 @@ export default function Editor() {
   };
 
   useEffect(() => {
+    getFiles()
+  }, [])
+
+  useEffect(() => {
     if (search_val.length > 0) {
       axios
         .get(`http://localhost:8000/api/search?q=${search_val}`)
@@ -74,6 +107,21 @@ export default function Editor() {
     }
   }, [search_val]);
 
+  const getFiles = () => {
+    const token = localStorage.getItem('token')
+    axios
+        .get(`http://localhost:8000/api/getfiles`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }})
+        .then((res) => {
+          setUserFiles(res.data)
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+  }
   const openSideBar = (selected) => {
     (selected == sidebar_selected || !sidebar_open) &&
       setSidebarOpen(!sidebar_open);
@@ -81,9 +129,7 @@ export default function Editor() {
   };
 
   const compile = (input) => {
-    console.log(input)
     if (/\b(input|raw_input)\(/.test(code) && !input) {
-        console.log('isinput')
         setConsoleOpen(true)
         setCompiledResult(code.match(/input\(['"](.*)['"]\)/)[1] + ': ')
         setReadOnly(false)
@@ -96,8 +142,9 @@ export default function Editor() {
         axios
           .post("http://localhost:8000/api/compile", code_data)
           .then((res) => {
+            console.log(res.data)
             setLoading(false)
-            setCompiledResult(res.data.Result)
+            setCompiledResult(res.data.Result ? res.data.Result : res.data.Errors)
             setReadOnly(true)
           })
           .catch((err) => {
@@ -248,7 +295,13 @@ export default function Editor() {
                 search_res.map((user) => <UserCard name={user.name} />)}
             </div>
           )}
-          {sidebar_selected == "files" && <div>Files</div>}
+          {sidebar_selected == "files" && <div>
+            {user_files ? user_files.map(file => {
+                <FileCard name={file.name} id={file.id} />
+            }) : 
+            <span>No files to show</span>
+            }
+            </div>}
           {sidebar_selected == "messages" && (
             <div>
               {activeChat ? (
@@ -279,7 +332,7 @@ export default function Editor() {
                 Run
               </button>
             )}
-            <button type="button">Save</button>
+            <button type="button" onClick={handleSaveClick}>Save</button>
             <button type="button" onClick={() => downloadFile()}>
               Download
             </button>
@@ -301,6 +354,16 @@ export default function Editor() {
           )}
         </div>
       </div>
+      {isPopupOpen &&
+      <div className="modal">
+        <div className="modal-content">
+          <h2>Save As:</h2>
+          <input type="text" value={filename} onChange={(e) => setFilename(e.target.value)} />
+          <button onClick={handleSave}>Save</button>
+          <button onClick={() => setPopupOpen(false)}>Cancel</button>
+        </div>
+      </div>
+    }
     </div>
   );
 }
