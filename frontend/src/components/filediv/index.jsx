@@ -7,7 +7,7 @@ const File = () => {
       <div className="name">
         <h2>file1</h2>
       </div>
-      <div className="btns">
+      <div className="btns flex fd-column ">
         <button>Open</button>
         <button>Delete</button>
       </div>
