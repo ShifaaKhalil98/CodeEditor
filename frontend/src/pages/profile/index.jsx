@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/navbar";
 import ProfileCard from "../../components/profileCard/ProfileCard";
 import File from "../../components/filediv";
 import "../../../src/base.css";
@@ -20,7 +20,7 @@ const profile = () => {
         </div>
         <div className="files-main flex fd-column">
           <div className="file-container">
-            <File />
+            <File fileName={"1"} />
           </div>
         </div>
       </div>
