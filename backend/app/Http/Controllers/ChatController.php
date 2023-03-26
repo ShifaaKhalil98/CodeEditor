@@ -13,7 +13,7 @@ class ChatController extends Controller{
     public function getChats(){
 
         $sender_id = 4;
-        // $sender_id = auth()->user();
+        // $sender_id = auth()->user()->id;
 
         $chats = Chat::with(['user'])->where('sender_id', $sender_id)->get();
             
@@ -45,7 +45,7 @@ class ChatController extends Controller{
         $chat_id = 5;
         $chat = Chat::find($chat_id);
         $receiver_id = $chat->receiver_id;
-        $receiver = User::where('id', $receiver_id)->get();
+        $receiver = User::where('id', $receiver_id)->first();
 
         return response()->json($receiver);
     } 
