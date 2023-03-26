@@ -1,6 +1,6 @@
 :root {
   --main: #09ffa7;
-  --grey: #575555;
+  /* --grey: #575555; */
 }
 html {
   background-color: black;
@@ -56,5 +56,6 @@ table {
   padding: 0 30px;
 }
 .admin-card img {
-  height: 100px;
+  height: 150px;
+  border-radius: 75px;
 }

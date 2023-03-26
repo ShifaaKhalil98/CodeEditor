@@ -1,15 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -52,7 +47,6 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-
         ]);
 
         $user = User::create([
@@ -95,22 +89,4 @@ class AuthController extends Controller
         ]);
     }
 
-}
-<?php
-
-namespace App\Http\Controllers;
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
-use Illuminate\Http\Request;
-
-class AuthController extends Controller
-{
-    //
 }

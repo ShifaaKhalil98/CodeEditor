@@ -1,6 +1,7 @@
 // import "./style.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../../../src/base.css";
 // import profile-pic from "../../images/profile-pic.png";
 
 const ProfileCard = ({ name, pic }) => {
@@ -8,7 +9,7 @@ const ProfileCard = ({ name, pic }) => {
   const [profilePic, setProfilePic] = useState(pic);
 
   return (
-    <div className="profile-container">
+    <div className="profile-card flex fd-column jc-center ">
       <div className="image">
         <img src={profilePic} alt="pic" />
       </div>

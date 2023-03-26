@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\File;
 
-class UserController extends Controller{
+class UserDataController extends Controller{
 
     public function display_user(User $user) {
      
@@ -19,12 +20,14 @@ class UserController extends Controller{
         return 'none';
     }
 
-    public function searchUsers(Request $request){
-        $query = $request->input('q');
+    public function getFiles(Request $request) {
+        $user = $request->user();
+        $id = $user->id;
 
-        $users = User::where('name', 'like', '%'.$query.'%')->get();
-        
-        return response()->json($users);
+        $files = File::where('user_id', $id)->get();
+
+        return response()->json($files);
+
     }
 
     public function user_profile(){}
