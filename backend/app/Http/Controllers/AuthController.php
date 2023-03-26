@@ -55,9 +55,6 @@ class AuthController extends Controller
 
         ]);
 
-        // $image = $request->input('image');
-        // $path = 'images/' . 
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

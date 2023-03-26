@@ -9,7 +9,7 @@ class Chat extends Model
 {
     use HasFactory;
 
-    public function messages()
+    public function message()
     {
         return $this->hasMany(Message::class);
     }

@@ -17,25 +17,32 @@ export default function Editor() {
   const [code, setCode] = useState("");
   const [compiled_result, setCompiledResult] = useState("");
   const [loading, setLoading] = useState(false);
-  const [search_val, setSearchVal] = useState('');
-  const [search_res, setSearchRes] = useState([])
+  const [search_val, setSearchVal] = useState("");
+  const [search_res, setSearchRes] = useState([]);
+  const [activeChat, setActiveChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [chats, setChats] = useState([]);
+
+  const handleChatClick = (chat_id) => {
+    setActiveChat(chat_id);
+  };
 
   useEffect(() => {
-    if(search_val.length > 0) {
-        axios
-      .get(`http://localhost:8000/api/search?q=${search_val}`)
-      .then((res) => {
-        console.log(res.data)
-        setSearchRes(res.data)
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    if (search_val.length > 0) {
+      axios
+        .get(`http://localhost:8000/api/search?q=${search_val}`)
+        .then((res) => {
+          console.log(res.data);
+          setSearchRes(res.data);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
     } else {
-        setSearchRes([])
+      setSearchRes([]);
     }
-  }, [search_val])
+  }, [search_val]);
 
   const openSideBar = (selected) => {
     (selected == sidebar_selected || !sidebar_open) &&
@@ -72,6 +79,64 @@ export default function Editor() {
     saveAs(file, "my_python_code.py");
   };
 
+  const ChatsList = ({ onChatClick }) => {
+    useEffect(() => {
+      axios
+        .get("http://127.0.0.1:8000/api/getChats")
+        .then((response) => setChats(response.data))
+        .catch((error) => console.log(error));
+    }, []);
+
+    return (
+      <div>
+        <h2>Chats</h2>
+        {chats.map((chat) => (
+          <div
+            key={chat.id}
+            className="chat-card"
+            onClick={() =>
+              onChatClick(chat.id, chat.user.profile_picture, chat.user.name)
+            }
+          >
+            <img src={chat.user.profile_picture} alt="User" />
+            <h2>
+              {chat.user.name.charAt(0).toUpperCase() + chat.user.name.slice(1)}
+            </h2>
+            {/* <img src={`http://127.0.0.1:8000/${chat.image_url}`} alt="User" /> */}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const Conv = ({ chat_id }) => {
+    useEffect(() => {
+      axios
+        .get("http://127.0.0.1:8000/api/getSingleChat/1")
+        .then((response) => setMessages(response.data))
+        .catch((error) => console.log(error));
+    }, []);
+
+    return (
+      <>
+        {/* <div className="chat-head">
+          <button type="button" onClick="">
+            {"\u2190"}
+          </button>
+          <img src={chat.user.profile_picture} alt="User" />
+          <h2>
+            {chat.user.name.charAt(0).toUpperCase() + chat.user.name.slice(1)}
+          </h2>
+        </div> */}
+        {messages.map((message) => (
+          <div key={message.id}>
+            <h4>{message.content}</h4>
+          </div>
+        ))}
+      </>
+    );
+  };
+
   return (
     <div>
       <div className="header">
@@ -101,14 +166,27 @@ export default function Editor() {
           />
         </div>
         <div className={sidebar_open ? "sidebar-open" : "sidebar-closed"}>
-          {sidebar_selected == "search" && <div>
-            <input className="search-bar" value={search_val} onChange={(e) => setSearchVal(e.target.value)}/>
-            {search_res && search_res.map((user) => (
-                <UserCard name={user.name} />
-            ))}
-            </div>}
+          {sidebar_selected == "search" && (
+            <div>
+              <input
+                className="search-bar"
+                value={search_val}
+                onChange={(e) => setSearchVal(e.target.value)}
+              />
+              {search_res &&
+                search_res.map((user) => <UserCard name={user.name} />)}
+            </div>
+          )}
           {sidebar_selected == "files" && <div>Files</div>}
-          {sidebar_selected == "messages" && <div>Messages</div>}
+          {sidebar_selected == "messages" && (
+            <div>
+              {activeChat ? (
+                <Conv chat_id={activeChat} />
+              ) : (
+                <ChatsList onChatClick={handleChatClick} />
+              )}
+            </div>
+          )}
         </div>
         <div className="editor">
           <textarea

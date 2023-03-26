@@ -1,10 +1,11 @@
-html {
-  background-color: black;
-}
 :root {
   --main: #09ffa7;
   --grey: #575555;
 }
+html {
+  background-color: black;
+}
+
 .nav {
   display: flex;
   /* flex-direction: column; */

@@ -12,7 +12,8 @@ class UserController extends Controller{
         if($user){
             return response()->json([
                 'status' => 'success',
-                'data' => ['name' => $user->name, 'profile_picture' => $user->profile_picture],
+                'name' => $user->name, 
+                'profile_picture' => $user->profile_picture,
             ]);
         }
         return 'none';

@@ -12,13 +12,21 @@ class ChatController extends Controller{
     public function getChats(){
 
         $sender_id = 4;
-        // $user = auth()->user();
+        // $sender_id = auth()->user();
 
         $chats = Chat::with(['user'])->where('sender_id', $sender_id)->get();
             
             return response()->json($chats);
     }
     
+    public function getSingleChat(Request $request){
+        
+        $chat_id = $request->chat_id;
+
+        $messages = Message::with(['chat'])->where('chat_id', $chat_id)->get();
+
+        return response()->json($messages);
+    }
     // public function getSingleChat(Request $request){
     //     $chat = Chat::find($request->chat_id);
 
