@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import receiver_image from "../../images/profile-pic.png";
+import receiver_image from "../../images/profile_pic.png";
 // import "./Chat.css";
 import search from "../../images/search.png";
 

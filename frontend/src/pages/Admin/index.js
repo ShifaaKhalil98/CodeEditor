@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import user_image from "../../images/profile-pic.png";
+import user_image from "../../images/profile_pic.png";
 import "./Admin.css";
 import search from "../../images/search.png";
 
