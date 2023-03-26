@@ -3,8 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Editor from "./pages/Editor/Editor";
 import UserList from "./pages/Admin";
-import Profile from "./pages/profile";
-
+import Profile from "./pages/profile/profile";
 import React from "react";
 // import ReactDOM from "react-dom";
 
