@@ -39,6 +39,12 @@ export default function Editor() {
     }
   }, []);
 
+  useEffect(() => {
+    if(sidebar_selected == 'files') {
+      getFiles()
+    }
+  }, [sidebar_selected])
+
   const refresh = () => {
     axios
       .post("http://localhost:8000/api/refresh", {}, {
@@ -92,6 +98,21 @@ export default function Editor() {
 
   const openFile = (id, content) => {
     setCode(content);
+  };
+
+  const deleteFile = (id) => {
+    axios
+        .delete(`http://localhost:8000/api/deletefile/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          getFiles()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   };
 
   useEffect(() => {
@@ -232,6 +253,7 @@ export default function Editor() {
                     id={file.id}
                     content={file.content}
                     openFile={() => openFile(file.id, file.content)}
+                    deleteFile={() => deleteFile(file.id)}
                   />
                 ))
               ) : (
