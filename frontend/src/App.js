@@ -16,9 +16,6 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/admin" element={<UserList />} />
       <Route path="/Login_Register" element={<Login_Register />} />
-
-      {/* <Route path="/chats" element={<ChatList />} />*/}
-
       {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );

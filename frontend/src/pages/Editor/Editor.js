@@ -8,6 +8,7 @@ import loading_pic from "../../images/loading.gif";
 import { saveAs } from "file-saver";
 import UserCard from "../../components/UserCard/UserCard";
 import FileCard from "../../components/FileCard/FileCard";
+import ChatsList from "../../components/ChatsList/ChatsList";
 
 export default function Editor() {
   const [signed_in, setSignedIn] = useState(false);
@@ -20,75 +21,72 @@ export default function Editor() {
   const [loading, setLoading] = useState(false);
   const [search_val, setSearchVal] = useState("");
   const [search_res, setSearchRes] = useState([]);
-  const [activeChat, setActiveChat] = useState(null);
-  const [chatData, setChatData] = useState([]);
-  const [chats, setChats] = useState([]);
-  const [receiver, setReceiver] = useState([]);
+  // const [activeChat, setActiveChat] = useState(null);
+  // const [chatData, setChatData] = useState([]);
+  // const [chats, setChats] = useState([]);
+  // const [receiver, setReceiver] = useState([]);
   const [is_readonly, setReadOnly] = useState(true);
-  const [messageContent, setMessageContent] = useState("");
-  const [filename, setFilename] = useState('');
+  // const [messageContent, setMessageContent] = useState("");
+  const [filename, setFilename] = useState("");
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
 
   const handleSave = () => {
-    const code_data = new FormData()
-    code_data.append("content", code)
-    code_data.append("name", filename)
-    const token = localStorage.getItem('token')
+    const code_data = new FormData();
+    code_data.append("content", code);
+    code_data.append("name", filename);
+    const token = localStorage.getItem("token");
     axios
-          .post("http://localhost:8000/api/savefile", code_data, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }})
-          .then((res) => {
-            setPopupOpen(false)
-          })
-          .catch((err) => {
-            console.log(err)
-          });
+      .post("http://localhost:8000/api/savefile", code_data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setPopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleSaveClick = () => {
-    if(code.length > 0) {
-        setFilename('');
-        setPopupOpen(true);
+    if (code.length > 0) {
+      setFilename("");
+      setPopupOpen(true);
     }
   };
 
-  const handleChatClick = (chat_id) => {
-    setActiveChat(chat_id);
-  };
+  // const handleInputChange = (event) => {
+  //   setMessageContent(event.target.value);
+  // };
 
-  const handleInputChange = (event) => {
-    setMessageContent(event.target.value);
-  };
+  // function handleKeyDown(e) {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     sendMessage(messageContent);
+  //     setChatData("");
+  //   }
+  // }
 
-  function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      sendMessage(messageContent);
-      setChatData("");
-    }
-  }
-
-  const sendMessage = () => {
-    // event.preventDefault();
-    const data = {
-      chat_id: activeChat.id,
-      content: messageContent,
-    };
-    axios
-      .post(`http://localhost:8000/api/sendMessage`, data)
-      .then((response) => {
-        setChatData([...chatData, response.data]);
-        setMessageContent("");
-      })
-      .catch((error) => console.log(error));
-  };
+  // const sendMessage = () => {
+  //   // event.preventDefault();
+  //   const data = {
+  //     chat_id: activeChat.id,
+  //     content: messageContent,
+  //   };
+  //   axios
+  //     .post(`http://localhost:8000/api/sendMessage`, data)
+  //     .then((response) => {
+  //       setChatData([...chatData, response.data]);
+  //       setMessageContent("");
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
 
   useEffect(() => {
-    getFiles()
-  }, [])
+    getFiles();
+  }, []);
 
   useEffect(() => {
     if (search_val.length > 0) {
@@ -108,20 +106,21 @@ export default function Editor() {
   }, [search_val]);
 
   const getFiles = () => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     axios
-        .get(`http://localhost:8000/api/getfiles`, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }})
-        .then((res) => {
-          setUserFiles(res.data)
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log(err);
-        });
-  }
+      .get(`http://localhost:8000/api/getfiles`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setUserFiles(res.data);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
   const openSideBar = (selected) => {
     (selected == sidebar_selected || !sidebar_open) &&
       setSidebarOpen(!sidebar_open);
@@ -130,36 +129,38 @@ export default function Editor() {
 
   const compile = (input) => {
     if (/\b(input|raw_input)\(/.test(code) && !input) {
-        setConsoleOpen(true)
-        setCompiledResult(code.match(/input\(['"](.*)['"]\)/)[1] + ': ')
-        setReadOnly(false)
+      setConsoleOpen(true);
+      setCompiledResult(code.match(/input\(['"](.*)['"]\)/)[1] + ": ");
+      setReadOnly(false);
     } else {
-        setConsoleOpen(true)
-        setLoading(true)
-        const code_data = new FormData()
-        code_data.append("code", code)
-        input && code_data.append('input', input)
-        axios
-          .post("http://localhost:8000/api/compile", code_data)
-          .then((res) => {
-            console.log(res.data)
-            setLoading(false)
-            setCompiledResult(res.data.Result ? res.data.Result : res.data.Errors)
-            setReadOnly(true)
-          })
-          .catch((err) => {
-            setLoading(false)
-            console.log(err)
-          });
+      setConsoleOpen(true);
+      setLoading(true);
+      const code_data = new FormData();
+      code_data.append("code", code);
+      input && code_data.append("input", input);
+      axios
+        .post("http://localhost:8000/api/compile", code_data)
+        .then((res) => {
+          console.log(res.data);
+          setLoading(false);
+          setCompiledResult(
+            res.data.Result ? res.data.Result : res.data.Errors
+          );
+          setReadOnly(true);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
     }
   };
 
   const checkEnter = (event) => {
     if (event.key === "Enter") {
-        event.preventDefault();
-        compile(compiled_result.split(": ")[1].trim())
-      }
-  }
+      event.preventDefault();
+      compile(compiled_result.split(": ")[1].trim());
+    }
+  };
 
   const addTab = (event) => {
     if (event.key === "Tab") {
@@ -173,87 +174,86 @@ export default function Editor() {
     saveAs(file, "my_python_code.py");
   };
 
-  const ChatsList = ({ onChatClick }) => {
-    useEffect(() => {
-      axios
-        .get("http://127.0.0.1:8000/api/getChats")
-        .then((response) => setChats(response.data))
-        .catch((error) => console.log(error));
-    }, []);
+  // const ChatsList = ({ onChatClick }) => {
+  //   useEffect(() => {
+  //     axios
+  //       .get("http://127.0.0.1:8000/api/getChats")
+  //       .then((response) => setChats(response.data))
+  //       .catch((error) => console.log(error));
+  //   }, []);
 
-    return (
-      <div>
-        <h2>Chats</h2>
-        {chats.map((chat) => (
-          <div
-            key={chat.id}
-            className="chat-card"
-            onClick={() =>
-              onChatClick(chat.id, chat.user.profile_picture, chat.user.name)
-            }
-          >
-            <img src={chat.user.profile_picture} alt="User" />
-            <h2>
-              {chat.user.name.charAt(0).toUpperCase() + chat.user.name.slice(1)}
-            </h2>
-            {/* <img src={`http://127.0.0.1:8000/${chat.image_url}`} alt="User" /> */}
-          </div>
-        ))}
-      </div>
-    );
-  };
+  //   return (
+  //     <div>
+  //       <h2>Chats</h2>
+  //       {chats.map((chat) => (
+  //         <div
+  //           key={chat.id}
+  //           className="chat-card"
+  //           onClick={() =>
+  //             onChatClick(chat.id, chat.user.profile_picture, chat.user.name)
+  //           }
+  //         >
+  //           <img src={chat.user.profile_picture} alt="User" />
+  //           <h2>
+  //             {chat.user.name.charAt(0).toUpperCase() + chat.user.name.slice(1)}
+  //           </h2>
+  //         </div>
+  //       ))}
+  //     </div>
+  //   );
+  // };
 
-  const Conv = ({ chat_id }) => {
-    useEffect(() => {
-      axios
-        .get(`http://127.0.0.1:8000/api/getSingleChat/${chat_id}`)
-        .then((response) => setChatData(response.data))
-        .catch((error) => console.log(error));
-    }, []);
+  // const Conv = ({ chat_id }) => {
+  //   useEffect(() => {
+  //     axios
+  //       .get(`http://127.0.0.1:8000/api/getSingleChat/${chat_id}`)
+  //       .then((response) => setChatData(response.data))
+  //       .catch((error) => console.log(error));
+  //   }, []);
 
-    useEffect(() => {
-      axios
-        .get("http://localhost:8000/api/getReceiver")
-        .then((response) => setReceiver(response.data))
-        .catch((error) => console.log(error));
-    }, []);
+  //   useEffect(() => {
+  //     axios
+  //       .get("http://localhost:8000/api/getReceiver")
+  //       .then((response) => setReceiver(response.data))
+  //       .catch((error) => console.log(error));
+  //   }, []);
 
-    return (
-      <>
-        <div>
-          <div key={receiver.id} className="chat-head">
-            <button type="button" onClick={() => setActiveChat(null)}>
-              {"\u2190"}
-            </button>
-            <img src={receiver.profile_picture} alt="user" />
-            <h2>{receiver.name}</h2>
-          </div>
-        </div>
-        <div className="chat-head"></div>
-        <div className="chat-container">
-          <div>
-            {chatData.map((message) => (
-              <div key={message.id}>
-                <h4>{message.content}</h4>
-              </div>
-            ))}
-          </div>
-          <div>
-            <form>
-              <input
-                className="message-input"
-                type="text"
-                placeholder="Type a message..."
-                value={messageContent}
-                onChange={(e) => handleInputChange(e)}
-                onKeyDown={(e) => handleKeyDown(e)}
-              />
-            </form>
-          </div>
-        </div>
-      </>
-    );
-  };
+  //   return (
+  //     <>
+  //       <div>
+  //         <div key={receiver.id} className="chat-head">
+  //           <button type="button" onClick={() => setActiveChat(null)}>
+  //             {"\u2190"}
+  //           </button>
+  //           <img src={receiver.profile_picture} alt="user" />
+  //           <h2>{receiver.name}</h2>
+  //         </div>
+  //       </div>
+  //       <div className="chat-head"></div>
+  //       <div className="chat-container">
+  //         <div>
+  //           {chatData.map((message) => (
+  //             <div key={message.id}>
+  //               <h4>{message.content}</h4>
+  //             </div>
+  //           ))}
+  //         </div>
+  //         <div>
+  //           <form>
+  //             <input
+  //               className="message-input"
+  //               type="text"
+  //               placeholder="Type a message..."
+  //               value={messageContent}
+  //               onChange={(e) => handleInputChange(e)}
+  //               onKeyDown={(e) => handleKeyDown(e)}
+  //             />
+  //           </form>
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // };
 
   return (
     <div>
@@ -295,20 +295,21 @@ export default function Editor() {
                 search_res.map((user) => <UserCard name={user.name} />)}
             </div>
           )}
-          {sidebar_selected == "files" && <div>
-            {user_files ? user_files.map(file => {
-                <FileCard name={file.name} id={file.id} />
-            }) : 
-            <span>No files to show</span>
-            }
-            </div>}
+          {sidebar_selected == "files" && (
+            <div>
+              {user_files ? (
+                user_files.map((file) => {
+                  <FileCard name={file.name} id={file.id} />;
+                })
+              ) : (
+                <span>No files to show</span>
+              )}
+            </div>
+          )}
           {sidebar_selected == "messages" && (
             <div>
-              {activeChat ? (
-                <Conv chat_id={activeChat} />
-              ) : (
-                <ChatsList onChatClick={handleChatClick} />
-              )}
+              {/* {activeChat ? <Conv chat_id={activeChat} /> : <ChatsList />} */}
+              {<ChatsList />}
             </div>
           )}
         </div>
@@ -332,7 +333,9 @@ export default function Editor() {
                 Run
               </button>
             )}
-            <button type="button" onClick={handleSaveClick}>Save</button>
+            <button type="button" onClick={handleSaveClick}>
+              Save
+            </button>
             <button type="button" onClick={() => downloadFile()}>
               Download
             </button>
@@ -347,23 +350,27 @@ export default function Editor() {
             <textarea
               className="editor-input"
               value={compiled_result}
-              onChange = {e => setCompiledResult(e.target.value)}
+              onChange={(e) => setCompiledResult(e.target.value)}
               onKeyDown={(e) => checkEnter(e)}
-              readOnly = {is_readonly}
+              readOnly={is_readonly}
             ></textarea>
           )}
         </div>
       </div>
-      {isPopupOpen &&
-      <div className="modal">
-        <div className="modal-content">
-          <h2>Save As:</h2>
-          <input type="text" value={filename} onChange={(e) => setFilename(e.target.value)} />
-          <button onClick={handleSave}>Save</button>
-          <button onClick={() => setPopupOpen(false)}>Cancel</button>
+      {isPopupOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Save As:</h2>
+            <input
+              type="text"
+              value={filename}
+              onChange={(e) => setFilename(e.target.value)}
+            />
+            <button onClick={handleSave}>Save</button>
+            <button onClick={() => setPopupOpen(false)}>Cancel</button>
+          </div>
         </div>
-      </div>
-    }
+      )}
     </div>
   );
 }
