@@ -125,6 +125,18 @@ html {
   cursor: pointer;
 }
 
+.user-photo {
+  width: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.filelist-container {
+  overflow-y: scroll;
+  height: 100%;
+}
+
 .console-open span,
 .console span {
   cursor: pointer;
