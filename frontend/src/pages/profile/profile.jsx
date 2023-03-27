@@ -9,11 +9,19 @@ import { useNavigate } from "react-router-dom";
 import Editor from "../Editor/Editor";
 const baseUrl = "http://localhost:8000";
 const Profile = () => {
+  const baseUrl = "http://localhost:8000";
   const navigate = useNavigate;
   const [name, setName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [files, setFiles] = useState([]);
   const [imageData, setImageData] = useState(null);
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("name");
+    const storedPic = localStorage.getItem("pic");
+    if (storedName) setName(storedName);
+    if (storedPic) setImageData(storedPic);
+  }, []);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -22,8 +30,12 @@ const Profile = () => {
       setImageData(reader.result);
       axios
         .post(`${baseUrl}/api/uploadImage`, { imageData: reader.result })
-        .then((response) => {})
-        .catch((error) => {});
+        .then((response) => {
+          setImageData(response.data.image_url);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
     reader.readAsDataURL(file);
   };
@@ -37,7 +49,6 @@ const Profile = () => {
         console.error(error);
       }
     };
-
     getFiles();
   }, []);
 
@@ -57,7 +68,7 @@ const Profile = () => {
         console.error(error);
       });
   };
-  // didndt test the  reponse data
+  // didndt test the reponse data
 
   return (
     <div>
@@ -86,8 +97,3 @@ const Profile = () => {
   );
 };
 export default Profile;
-// axios(map to file name and id(for delete) and also a query to get username);
-// base64
-// const getName = async () => {
-//   axios.get('http://127.0.0.1:8000/api/display_user$')
-// };
