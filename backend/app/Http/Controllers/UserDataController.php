@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\File;
 
 class UserDataController extends Controller{
@@ -35,12 +36,18 @@ class UserDataController extends Controller{
         $id = Auth::user()->id;
         $name = $request->input('name');
         $content = $request->input('content');
+        $file_id = $request->input('id');
 
-        $file = File::create([
+        if ($file_id) {
+            $file = File::where('id', $file_id)
+                    ->update(['content' => $content]);
+        } else {
+            $file = File::create([
             'user_id' => $id,
             'name' => $name,
             'content' => $content
         ]);
+        }
 
         return response()->json($file);
     }
@@ -53,16 +60,37 @@ class UserDataController extends Controller{
         $file ->delete();
         return response()->json(['message'=>'File deleted succefully']);
     }
-    function uploadImage(Request $request, $id){
-        $encoded = $request->encoded;
-        $decoded = base64_decode($encoded);
+    // function uploadImage(Request $request, $id){
+    //     $encoded = $request->encoded;
+    //     $decoded = base64_decode($encoded);
     
-        $file_path = public_path('images/'. $id . 'op' . '.png');
+    //     $file_path = public_path('images/'. $id . 'op' . '.png');
     
-        file_put_contents($file_path,$decoded);
-        $image_url = "http://localhost/images" . $id . ".png";
-        User::where("id",$id)->update("profile_picture", $image_url);
+    //     file_put_contents($file_path,$decoded);
+    //     $image_url = "http://localhost/images/" . $id . ".png";
+    //     User::where("id", $id)->update(["profile_picture" => $image_url]);
         
-        return response()->json(['message'=>'success', 'image_url'=>$image_url]);
+    //     return response()->json(['message'=>'success', 'image_url'=>$image_url]);
+    // }
+
+    // routes/api.php
+
+function uploadImage(Request $request) {
+    $user = Auth::user();
+
+    if ($request->hasFile('image')) {
+        
+        $file = $request->file('image');
+        $fileName = $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('public/profile-pictures', $fileName);
+        $imageUrl = url(Storage::url('public/profile-pictures/' . $fileName));
+        $user->profile_picture = $imageUrl;
+        $user->save();
+
+        return response()->json(['success' => true, 'message' => 'Profile picture uploaded successfully.']);
+    } else {
+        return response()->json(['success' => false, 'message' => 'No file uploaded.']);
     }
+}
+
 }

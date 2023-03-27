@@ -54,7 +54,7 @@ const ChatsList = ({ onChatClick, userID }) => {
         />
       )}
 
-      {direct_chat_id && (
+      {userID && (
         <Conversation
         chat_id={userID}
         setActiveChat={setActiveChat}

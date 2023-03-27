@@ -26,9 +26,11 @@ export default function Editor() {
   const [search_res, setSearchRes] = useState([]);
   const [is_readonly, setReadOnly] = useState(true);
   const [filename, setFilename] = useState("");
+  const [current_file_id, setCurrentFileID] = useState()
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [user_chat_id, setUserChatID] = useState();
+  const [saved, setSaved] = useState(false);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -70,7 +72,8 @@ export default function Editor() {
     if (token) {
       const code_data = new FormData();
       code_data.append("content", code);
-      code_data.append("name", filename);
+      filename && code_data.append("name", filename);
+      current_file_id && code_data.append('id', current_file_id)
       axios
         .post("http://localhost:8000/api/savefile", code_data, {
           headers: {
@@ -79,6 +82,13 @@ export default function Editor() {
         })
         .then((res) => {
           setPopupOpen(false);
+          if(current_file_id) {
+            setSaved(true);
+            setTimeout(() => {
+              setSaved(false);
+            }, 2000);
+          }
+          getFiles()
         })
         .catch((err) => {
           console.log(err);
@@ -89,16 +99,21 @@ export default function Editor() {
   const handleSaveClick = () => {
     if (token) {
       if (code.length > 0) {
-        setFilename("");
-        setPopupOpen(true);
+        if(current_file_id) {
+          handleSave()
+        } else {
+          setFilename("");
+          setPopupOpen(true);
+        }
       }
     } else {
-      navigate(`/Login_Register`);
+      navigate(`/login`);
     }
   };
 
   const openFile = (id, content) => {
     setCode(content);
+    setCurrentFileID(id)
   };
 
   const deleteFile = (id) => {
@@ -155,6 +170,7 @@ export default function Editor() {
     (selected == sidebar_selected || !sidebar_open) &&
       setSidebarOpen(!sidebar_open);
     setSidebarSelected(selected);
+    setUserChatID()
   };
 
   const compile = (input) => {
@@ -289,9 +305,9 @@ export default function Editor() {
                 Run
               </button>
             )}
-            <button type="button" onClick={handleSaveClick}>
-              Save
-            </button>
+            {saved ? <button type="button">Saved</button> : 
+            <button type="button" onClick={handleSaveClick}>Save</button>}
+
             <button type="button" onClick={() => downloadFile()}>
               Download
             </button>
