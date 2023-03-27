@@ -13,12 +13,11 @@ class ChatController extends Controller{
 
     public function getChats(){
 
-        $sender_id = 4;
-        // $sender_id = auth()->user()->id;
+        $sender_id = auth()->user()->id;
 
         $chats = Chat::with(['user'])->where('sender_id', $sender_id)->get();
             
-            return response()->json($chats);
+        return response()->json($chats);
     }
     
     public function getSingleChat(Request $request){
@@ -33,9 +32,9 @@ class ChatController extends Controller{
         return response()->json($messages);
     }
 
-    public function getReceiver(){
+    public function getReceiver(Request $request){
 
-        $chat_id = 5;
+        $chat_id = $request->chat_id;
         $chat = Chat::find($chat_id);
         $receiver_id = $chat->receiver_id;
         $receiver = User::where('id', $receiver_id)->first();
@@ -55,8 +54,7 @@ class ChatController extends Controller{
     
         $message = new Message();
         $message->chat_id = $request->chat_id;
-        $message->sender_id = 4;
-        // $message->sender_id = Auth::id();
+        $message->sender_id = Auth::id();
         $message->content = $request->content;
     
         if (!$message->save()) {

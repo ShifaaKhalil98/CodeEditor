@@ -65,6 +65,33 @@ export default function Editor() {
     setCode(content);
   };
 
+  // const handleInputChange = (event) => {
+  //   setMessageContent(event.target.value);
+  // };
+
+  // function handleKeyDown(e) {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     sendMessage(messageContent);
+  //     setChatData("");
+  //   }
+  // }
+
+  // const sendMessage = () => {
+  //   // event.preventDefault();
+  //   const data = {
+  //     chat_id: activeChat.id,
+  //     content: messageContent,
+  //   };
+  //   axios
+  //     .post(`http://localhost:8000/api/sendMessage`, data)
+  //     .then((response) => {
+  //       setChatData([...chatData, response.data]);
+  //       setMessageContent("");
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
+
   useEffect(() => {
     getFiles();
   }, []);
@@ -87,8 +114,7 @@ export default function Editor() {
   }, [search_val]);
 
   const getFiles = () => {
-    const token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjc5OTE0NzE5LCJleHAiOjE2Nzk5MTgzMTksIm5iZiI6MTY3OTkxNDcxOSwianRpIjoiYm9lR1l2bkVpSlRRWnF1RiIsInN1YiI6IjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.umqhRLCns7fWGUNjtM6gM6q34spPbstvBGP95oH14cE";
+    const token = " ";
     if (token) {
       axios
         .get(`http://localhost:8000/api/getfiles`, {

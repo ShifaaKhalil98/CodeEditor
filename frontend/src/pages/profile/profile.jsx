@@ -7,12 +7,12 @@ import "../../../src/base.css";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import Editor from "../Editor/Editor";
-const baseUrl = "http://localhost:8000";
+
 const Profile = () => {
   const baseUrl = "http://localhost:8000";
   const navigate = useNavigate;
   const [name, setName] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileName, setfileName] = useState(null);
   const [files, setFiles] = useState([]);
   const [imageData, setImageData] = useState(null);
 
@@ -23,30 +23,23 @@ const Profile = () => {
     if (storedPic) setImageData(storedPic);
   }, []);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageData(reader.result);
-      axios
-        .post(`${baseUrl}/api/uploadImage`, { imageData: reader.result })
-        .then((response) => {
-          setImageData(response.data.image_url);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    reader.readAsDataURL(file);
-  };
-
   useEffect(() => {
-    const getFiles = async () => {
-      try {
-        const response = await axios.get(`${baseUrl}/api/getfiles`);
-        setFiles(response.data);
-      } catch (error) {
-        console.error(error);
+    const getFiles = () => {
+      const token = " ";
+      if (token) {
+        axios
+          .get(`http://localhost:8000/api/getfiles`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((res) => {
+            console.log(res);
+            setFiles(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     };
     getFiles();
@@ -76,9 +69,11 @@ const Profile = () => {
         <Navbar />
       </div>
       <div className="main flex jc-center ai-cneter ">
-        <div className="profile-main flex ai-fs jc-center">
+        <div className="profile-main fd-column flex ai-fs jc-center">
           <ProfileCard name={"ayman"} pic={imageData} />
-          <input type="file" onChange={handleImageChange} />
+          <div>
+            <input type="file" onChange={handleImageChange} />
+          </div>
         </div>
         <div className="files-main flex fd-column">
           <div className="file-container">
@@ -86,8 +81,8 @@ const Profile = () => {
               <File
                 key={file.id}
                 fileName={file.name}
-                openeditor={() => handleFileOpen(file.id)}
-                deleteFile={() => handleFileDelete(file.id)}
+                openeditor={() => handleFileOpen(fileName)}
+                deleteFile={() => handleFileDelete(fileName)}
               />;
             })}
           </div>
