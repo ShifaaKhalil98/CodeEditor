@@ -30,7 +30,7 @@ Route::controller(ChatController::class)->group(function(){
 
 Route::controller(UserDataController::class)->group(function(){
     Route::get('/display_user/{id}','display_user');
-    Route::get('/user_profile','user_profile');
+    Route::middleware('auth:api')->get('/user_profile','user_profile');
     Route::middleware('auth:api')->get('/getfiles', 'getFiles');
     Route::middleware('auth:api')->post('/savefile', 'saveFile');
     Route::middleware('auth:api')->delete('/deletefile/{id}', 'deletefile');
