@@ -104,7 +104,7 @@ const Login = (props) => {
           <button onClick={togle_component}> register </button>
         </section>
         </div>
-        <div className="imgdiv"><img className="background_image" src={login_regiter}/></div>
+        <div className="imgdivl"><img className="background_image1" src={login_regiter}/></div>
         </div>
       )}
      

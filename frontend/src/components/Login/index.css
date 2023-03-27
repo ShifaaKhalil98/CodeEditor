@@ -1,7 +1,7 @@
 
 .title{font-size: xx-large;
-margin-top: 150px;}
-.section{
+}
+    .section{
     width: 100%;
     max-width: 420px;
     min-height: 400px;
@@ -74,9 +74,15 @@ input[type='password']{
 }
 .login_component{
     display: flex;
-    flex-direction: row;
+        flex-direction: row;
+        justify-content: space-between;
 
 }
-.background_image{
-    width: 50%;
+.login_form_comp{
+    margin-left: 100px;
+    
+
+}
+.imgdivl{
+  
 }

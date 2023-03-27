@@ -1,6 +1,6 @@
 
 .title{font-size: xx-large;
-    margin-top: 150px;}
+    }
     .section{
         width: 100%;
         max-width: 420px;
@@ -75,7 +75,20 @@
       .register_component{
         display: flex;
         flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+       
+           
+      
     
     }
+    .register_form_comp{ margin-right: 200px;
+        margin-left: 200px;}
     .imgdiv{
+        
+    }
+    .background_image{
+        object-fit: scale-down;
+        width: 100%;
+        height: 800px;
     }

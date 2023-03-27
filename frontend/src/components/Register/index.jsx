@@ -61,13 +61,7 @@ const Register = (props) => {
     <div className="register_component">
       <div className="register_form_comp">
     <section className="section">
-      <p
-        ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
-        aria-live="assertive"
-      >
-        {errMsg}
-      </p>
+      
       <h1 className="title">Register your account</h1>
       <form
         onSubmit={(e) => {
