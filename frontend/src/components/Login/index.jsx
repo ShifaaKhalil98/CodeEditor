@@ -83,12 +83,13 @@ const Login = (props) => {
             className="login"
           >
             <label>Email:</label>
-            <input
+            <input   
               type="email"
               id="eamil"
               autoComplete="off"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              placeholder="Enter Email"
               required
             />
             <label>Password:</label>
@@ -97,6 +98,7 @@ const Login = (props) => {
               id="password"
               onChange={(e) => setPwd(e.target.value)}
               value={pwd}
+              placeholder="Enter password"
               required
             />
             <div className="buttons_div">
