@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
 import Login from "../Login";
-import login_regiter from  "../../images/login_regiter.png";
+import register_background from  "../../images/register_backgroud.png";
 const Register = (props) => {
   const { togle_component } = props;
 
@@ -61,13 +61,7 @@ const Register = (props) => {
     <div className="register_component">
       <div className="register_form_comp">
     <section className="section">
-      <p
-        ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
-        aria-live="assertive"
-      >
-        {errMsg}
-      </p>
+      
       <h1 className="title">Register your account</h1>
       <form
         onSubmit={(e) => {
@@ -127,12 +121,17 @@ const Register = (props) => {
         >
           Must match the first password input field.
         </p>
+        <div className="buttons_div">
         <button className="sign_up">Sign Up</button>
+        <button className="btnlogin" onClick={togle_component}>already registered</button>
+        </div>
       </form>
-      <button onClick={togle_component}>already registered</button>
+     
     </section>
     </div>
-    <div className="imgdiv"><img className="background_image" src={login_regiter}/></div>
+    <div className="imgdiv"><img className="background_image" src={register_background}  />
+    
+    </div>
         
     </div>
   );

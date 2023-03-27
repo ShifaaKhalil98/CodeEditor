@@ -28,25 +28,37 @@ export default function Editor() {
   const [filename, setFilename] = useState("");
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const token = localStorage.getItem("token");
+  const [user_chat_id, setUserChatID] = useState();
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
     getFiles();
-
+    
     if(token) {
       refresh()
+      console.log('called')
     }
   }, []);
 
+  useEffect(() => {
+    if(sidebar_selected == 'files') {
+      getFiles()
+    }
+  }, [sidebar_selected])
+
   const refresh = () => {
     axios
-      .post("http://localhost:8000/api/refresh", {
+      .post("http://localhost:8000/api/refresh", {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
+        console.log(res)
+        setToken(res.data.authorisation.token)
+        localStorage.setItem('token', res.data.authorisation.token)
         setSignedIn(true)
+        setUserPhoto(res.data.user.profile_picture)
       })
       .catch((err) => {
         console.log(err);
@@ -89,6 +101,21 @@ export default function Editor() {
     setCode(content);
   };
 
+  const deleteFile = (id) => {
+    axios
+        .delete(`http://localhost:8000/api/deletefile/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          getFiles()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  };
+
   useEffect(() => {
     if (search_val.length > 0) {
       axios
@@ -128,6 +155,7 @@ export default function Editor() {
     (selected == sidebar_selected || !sidebar_open) &&
       setSidebarOpen(!sidebar_open);
     setSidebarSelected(selected);
+    setUserChatID()
   };
 
   const compile = (input) => {
@@ -177,6 +205,11 @@ export default function Editor() {
     saveAs(file, "my_python_code.py");
   };
 
+  const messageHandle = (id) => {
+    setSidebarSelected('messages')
+    setUserChatID(id)
+  }
+
   return (
     <div>
       <div className="header">
@@ -184,7 +217,7 @@ export default function Editor() {
         {signed_in ? (
           <img src={user_photo} className="user-photo" />
         ) : (
-          <span>Sign In</span>
+          <span onClick={() => navigate('/Login_Register')}>Sign In</span>
         )}
       </div>
       <div className="editor-container">
@@ -215,7 +248,7 @@ export default function Editor() {
                 placeholder="Search"
               />
               {search_res &&
-                search_res.map((user) => <UserCard name={user.name} />)}
+                search_res.map((user) => <UserCard name={user.name} messageHandle={() => messageHandle(user.id)}/>)}
             </div>
           )}
           {sidebar_selected == "files" && (
@@ -227,6 +260,7 @@ export default function Editor() {
                     id={file.id}
                     content={file.content}
                     openFile={() => openFile(file.id, file.content)}
+                    deleteFile={() => deleteFile(file.id)}
                   />
                 ))
               ) : (
@@ -234,7 +268,7 @@ export default function Editor() {
               )}
             </div>
           )}
-          {sidebar_selected == "messages" && <div>{<ChatsList />}</div>}
+          {sidebar_selected == "messages" && <div>{<ChatsList userID={user_chat_id}/>}</div>}
         </div>
         <div className="editor">
           <textarea

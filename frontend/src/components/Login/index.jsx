@@ -39,12 +39,19 @@ const Login = (props) => {
       .post("http://localhost:8000/api/login", login_data)
       .then((r) => {
         console.log(r);
-        localStorage.setItem("name", r.data.user.name);
         setIsSubmitting(false);
         localStorage.setItem("token", r.data.authorisation.token);
-        navigate("/editor");
+        navigate("/editor", { state: { name: "sabaoon" } });
       })
-      .catch((e) => {});
+      .catch((e) => {
+        //    setIsSubmitting(false);
+        //   if (r.response.data.errors != undefined) {
+        //     setValidationErrors(e.response.data.errors);
+        //    }
+        //    if (r.response.data.error != undefined) {
+        //      setValidationErrors(e.response.data.error);
+        //   }
+      });
   };
 
   return (
@@ -89,13 +96,18 @@ const Login = (props) => {
                   value={pwd}
                   required
                 />
-                <button className="sign_in">Sign In</button>
+                <div className="buttons_div">
+                  <button className="sign_in">Sign In</button>
+                  <button className="btnRegister" onClick={togle_component}>
+                    {" "}
+                    register{" "}
+                  </button>
+                </div>
               </form>
-              <button onClick={togle_component}> register </button>
             </section>
           </div>
-          <div className="imgdiv">
-            <img className="background_image" src={login_regiter} />
+          <div className="imgdivl">
+            <img className="background_image1" src={login_regiter} />
           </div>
         </div>
       )}
