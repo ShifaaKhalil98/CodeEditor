@@ -116,3 +116,6 @@ input[type='password']{
     width: 50%;
   
 }
+::placeholder{
+    color: rgb(54, 53, 53);
+}
