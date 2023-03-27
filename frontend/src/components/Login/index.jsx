@@ -99,9 +99,12 @@ const Login = (props) => {
               value={pwd}
               required
             />
+            <div className="buttons_div">
             <button className="sign_in">Sign In</button>
+            <button className="btnRegister" onClick={togle_component}> register </button>
+            </div>
           </form>
-          <button onClick={togle_component}> register </button>
+          
         </section>
         </div>
         <div className="imgdivl"><img className="background_image1" src={login_regiter}/></div>
