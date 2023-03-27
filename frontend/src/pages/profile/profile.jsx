@@ -25,7 +25,7 @@ const Profile = () => {
 
   useEffect(() => {
     const getFiles = () => {
-      const token = " ";
+      const token = localStorage.getItem("token");
       if (token) {
         axios
           .get(`http://localhost:8000/api/getfiles`, {
