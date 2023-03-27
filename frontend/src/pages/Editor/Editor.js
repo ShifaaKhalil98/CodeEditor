@@ -116,20 +116,23 @@ export default function Editor() {
   }, [search_val]);
 
   const getFiles = () => {
-    const token = localStorage.getItem("token");
-    axios
-      .get(`http://localhost:8000/api/getfiles`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setUserFiles(res.data);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjc5OTE0NzE5LCJleHAiOjE2Nzk5MTgzMTksIm5iZiI6MTY3OTkxNDcxOSwianRpIjoiYm9lR1l2bkVpSlRRWnF1RiIsInN1YiI6IjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.umqhRLCns7fWGUNjtM6gM6q34spPbstvBGP95oH14cE";
+    if(token) {
+      axios
+        .get(`http://localhost:8000/api/getfiles`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res)
+          setUserFiles(res.data);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    }
   };
   const openSideBar = (selected) => {
     (selected == sidebar_selected || !sidebar_open) &&
@@ -308,9 +311,9 @@ export default function Editor() {
           {sidebar_selected == "files" && (
             <div>
               {user_files ? (
-                user_files.map((file) => {
-                  <FileCard name={file.name} id={file.id} />;
-                })
+                user_files.map((file) => 
+                  <FileCard name={file.name} id={file.id} />
+              )
               ) : (
                 <span>No files to show</span>
               )}
