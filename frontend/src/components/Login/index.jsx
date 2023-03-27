@@ -1,22 +1,21 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom"
-import Login_Register from "../../pages/Login_Register";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./index.css";
 const Login = (props) => {
-  const {togle_component}=props;
-  const userRef = useRef();
+  const { togle_component } = props;
+  // const userRef = useRef();
   const errRef = useRef();
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [validationErrors, setValidationErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [validationErrors, setValidationErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // useEffect(() => {
   //   userRef.current.focus();
   // }, []);
@@ -24,43 +23,44 @@ const Login = (props) => {
     setErrMsg("");
   }, [user, pwd]);
 
-  
- 
-    useEffect(()=>{
-        if(localStorage.getItem('token') != "" && localStorage.getItem('token') != null){
-            navigate("/editor");
-        }
-        console.log(localStorage.getItem('token'))
-    },[])
- 
-    const loginAction = (e) => {
-        setValidationErrors({})
-        e.preventDefault();
-        setIsSubmitting(true)
-        const login_data = new FormData()
-        login_data.append('email', email)
-        login_data.append('password', pwd)
-        axios.post('http://localhost:8000/api/login', login_data)
-        .then((r) => {
-            setIsSubmitting(false)
-            localStorage.setItem('token', r.data.authorization.token)
-            navigate("/editor");
-        })
-        .catch((e) => {
-            setIsSubmitting(false)
-            if (e.response.data.errors != undefined) {
-                setValidationErrors(e.response.data.errors);
-            }
-            if (e.response.data.error != undefined) {
-                setValidationErrors(e.response.data.error);
-            }
-        });
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/editor");
     }
+    console.log(localStorage.getItem("token"));
+  }, []);
+
+  const loginAction = (e) => {
+    setValidationErrors({});
+    e.preventDefault();
+    setIsSubmitting(true);
+    const login_data = new FormData();
+    login_data.append("email", email);
+    login_data.append("password", pwd);
+    axios
+      .post("http://localhost:8000/api/login", login_data)
+      .then((r) => {
+        console.log(r);
+
+        setIsSubmitting(false);
+        localStorage.setItem("token", r.data.authorisation.token);
+        navigate("/editor");
+      })
+      .catch((e) => {
+        // setIsSubmitting(false);
+        // if (e.response.data.errors != undefined) {
+        //   setValidationErrors(e.response.data.errors);
+        // }
+        // if (e.response.data.error != undefined) {
+        //   setValidationErrors(e.response.data.error);
+        // }
+      });
+  };
   return (
     <>
       {success ? (
         <section className="section">
-          <h1 >You are logged in!</h1>
+          <h1>You are logged in!</h1>
           <br />
           <p>{/* <a href="#">Go to Home</a> */}</p>
         </section>
@@ -74,8 +74,13 @@ const Login = (props) => {
             {errMsg}
           </p>
           <h1 className="title">Sign In</h1>
-          <form onSubmit={(e)=>{loginAction(e)}} className="login">
-            <label For="email">Email:</label>
+          <form
+            onSubmit={(e) => {
+              loginAction(e);
+            }}
+            className="login"
+          >
+            <label>Email:</label>
             <input
               type="email"
               id="eamil"
@@ -84,7 +89,7 @@ const Login = (props) => {
               value={email}
               required
             />
-            <label htmlFor="password">Password:</label>
+            <label>Password:</label>
             <input
               type="password"
               id="password"
@@ -93,13 +98,8 @@ const Login = (props) => {
               required
             />
             <button className="sign_in">Sign In</button>
-            
           </form>
           <button onClick={togle_component}> register </button>
-            
-             
-            
-          
         </section>
       )}
     </>
