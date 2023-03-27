@@ -47,7 +47,7 @@ const Profile = () => {
     axios
       .delete(`${baseUrl}/api/files/${fileName}`)
       .then(() => {
-        axios.get("${baseUrl}/api/getfiles").then((response) => {
+        axios.get(`${baseUrl}/api/getfiles`).then((response) => {
           setFiles(response.data);
         });
       })
@@ -69,11 +69,14 @@ const Profile = () => {
         </div>
         <div className="files-main flex fd-column">
           <div className="file-container">
-            <File
-              fileName={"1"}
-              openeditor={() => handleFileOpen}
-              deleteFile={() => handleFileDelete}
-            />
+            {files.map((file) => {
+              <File
+                key={file.id}
+                fileName={file.name}
+                openeditor={() => handleFileOpen(file.id)}
+                deleteFile={() => handleFileDelete(file.id)}
+              />;
+            })}
           </div>
         </div>
       </div>
