@@ -91,8 +91,9 @@ const Login = () => {
               required
             />
             <button className="sign_in">Sign In</button>
-            <a href="#">Already registered?</a>
+            
           </form>
+          <a href="#">Already registered?</a>
             
              
             
