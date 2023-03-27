@@ -5,9 +5,11 @@ import ProfileCard from "../../components/profileCard/ProfileCard";
 import File from "../../components/filediv";
 import "../../../src/base.css";
 import "./style.css";
-
+import { useNavigate } from "react-router-dom";
+import Editor from "../Editor/Editor";
 baseUrl = "http://localhost:8000";
 const Profile = () => {
+  const navigate = useNavigate;
   const [name, setName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [files, setFiles] = useState([]);
@@ -40,7 +42,7 @@ const Profile = () => {
   }, []);
 
   const handleFileOpen = (fileName) => {
-    setSelectedFile(fileName);
+    navigate.push(`../Editor/Editor/${fileName}`);
   };
 
   const handleFileDelete = (fileName) => {
