@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Admin.css";
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/Navbar";
 
 function UserList() {
   const [users, setUsers] = useState([]);
