@@ -88,6 +88,7 @@ export default function Editor() {
               setSaved(false);
             }, 2000);
           }
+          getFiles()
         })
         .catch((err) => {
           console.log(err);
