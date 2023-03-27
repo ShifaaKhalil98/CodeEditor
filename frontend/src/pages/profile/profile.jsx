@@ -86,8 +86,8 @@ const Profile = () => {
               <File
                 key={file.id}
                 fileName={file.name}
-                openeditor={() => handleFileOpen(file.id)}
-                deleteFile={() => handleFileDelete(file.id)}
+                openeditor={() => handleFileOpen(fileName)}
+                deleteFile={() => handleFileDelete(fileName)}
               />;
             })}
           </div>
