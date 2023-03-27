@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 class AdminController extends Controller{
 
     public function users() {
-        // $admin = auth()->user();
+
+        $user = auth()->user();
+
+        if ($user && $user->user_type === 'admin') {
+            $admin = $user;
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
  
-        // if($admin){
+        if($admin){
 
             $users = User::withCount('files')->get();
 
@@ -27,12 +34,24 @@ class AdminController extends Controller{
             }
             
             return response()->json($response);
+        }
     }
 
     public function getAdmin(){
-        $admin = User::where('user_type' ,'admin')->get();
+        $user = auth()->user();
 
-        return response()->json($admin);
+        if ($user && $user->user_type === 'admin') {
+            $admin = $user;
+        } else {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+ 
+        if($admin){
+
+            $admin = User::where('user_type' ,'admin')->get();
+
+            return response()->json($admin);
+        }
     }
 
 }

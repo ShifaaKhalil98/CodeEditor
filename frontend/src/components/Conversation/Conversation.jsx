@@ -16,7 +16,7 @@ const Conversation = ({ chat_id, setActiveChat }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/getReceiver")
+      .get(`http://localhost:8000/api/getReceiver/${chat_id}`)
       .then((response) => setReceiver(response.data))
       .catch((error) => console.log(error));
   }, []);
