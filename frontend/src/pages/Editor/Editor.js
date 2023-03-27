@@ -28,25 +28,30 @@ export default function Editor() {
   const [filename, setFilename] = useState("");
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
     getFiles();
-
+    
     if(token) {
       refresh()
+      console.log('called')
     }
   }, []);
 
   const refresh = () => {
     axios
-      .post("http://localhost:8000/api/refresh", {
+      .post("http://localhost:8000/api/refresh", {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
+        console.log(res)
+        setToken(res.data.authorisation.token)
+        localStorage.setItem('token', res.data.authorisation.token)
         setSignedIn(true)
+        setUserPhoto(res.data.user.profile_picture)
       })
       .catch((err) => {
         console.log(err);
@@ -184,7 +189,7 @@ export default function Editor() {
         {signed_in ? (
           <img src={user_photo} className="user-photo" />
         ) : (
-          <span>Sign In</span>
+          <span onClick={() => navigate('/Login_Register')}>Sign In</span>
         )}
       </div>
       <div className="editor-container">
