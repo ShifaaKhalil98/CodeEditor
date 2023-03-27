@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/navbar";
 import ProfileCard from "../../components/profileCard/ProfileCard";
 import File from "../../components/filediv";
 import "../../../src/base.css";
 import "./style.css";
+
+baseUrl = "http://localhost:8000";
 const Profile = () => {
   const [name, setName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -17,7 +19,7 @@ const Profile = () => {
     reader.onloadend = () => {
       setImageData(reader.result);
       axios
-        .post("/api/uploadImage", { imageData: reader.result })
+        .post(`${baseUrl}/api/uploadImage`, { imageData: reader.result })
         .then((response) => {})
         .catch((error) => {});
     };
@@ -27,7 +29,7 @@ const Profile = () => {
   useEffect(() => {
     const getFiles = async () => {
       try {
-        const response = await axios.get("/api/getfiles");
+        const response = await axios.get(`${baseUrl}/api/getfiles`);
         setFiles(response.data);
       } catch (error) {
         console.error(error);
@@ -43,9 +45,9 @@ const Profile = () => {
 
   const handleFileDelete = (fileName) => {
     axios
-      .delete(`/api/files/${fileName}`)
+      .delete(`${baseUrl}/api/files/${fileName}`)
       .then(() => {
-        axios.get("/api/getfiles").then((response) => {
+        axios.get("${baseUrl}/api/getfiles").then((response) => {
           setFiles(response.data);
         });
       })
