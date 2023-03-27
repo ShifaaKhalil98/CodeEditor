@@ -46,7 +46,7 @@ const Login = (props) => {
         localStorage.setItem("token", r.data.authorisation.token);
         navigate("/editor", { state: { name:'sabaoon'}});
       })
-      // .catch((r) => {
+      .catch((e) => {
       //    setIsSubmitting(false);
       //   if (r.response.data.errors != undefined) {
       //     setValidationErrors(e.response.data.errors);
@@ -54,7 +54,7 @@ const Login = (props) => {
       //    if (r.response.data.error != undefined) {
       //      setValidationErrors(e.response.data.error);
       //   }
-      // });
+       });
   };
   return (
     <>

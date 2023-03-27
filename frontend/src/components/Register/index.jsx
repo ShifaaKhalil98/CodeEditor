@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
 import Login from "../Login";
-import login_regiter from  "../../images/login_regiter.png";
+import register_background from  "../../images/register_backgroud.png";
 const Register = (props) => {
   const { togle_component } = props;
 
@@ -129,7 +129,9 @@ const Register = (props) => {
      
     </section>
     </div>
-    <div className="imgdiv"><img className="background_image" src={login_regiter}/></div>
+    <div className="imgdiv"><img className="background_image" src={register_background}  />
+    
+    </div>
         
     </div>
   );
