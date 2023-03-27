@@ -41,10 +41,9 @@ const Login = (props) => {
       .post("http://localhost:8000/api/login", login_data)
       .then((r) => {
         console.log(r);
-        // localStorage.setItem("name", r.data.name);
         setIsSubmitting(false);
         localStorage.setItem("token", r.data.authorisation.token);
-        navigate("/editor");
+        // navigate("/editor", { state: { name: r.data.name } });
       })
       .catch((e) => {
         // setIsSubmitting(false);
