@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import login_regiter from  "../../images/login_regiter.png";
 
 import "./index.css";
 const Login = (props) => {
@@ -65,6 +66,8 @@ const Login = (props) => {
           <p>{/* <a href="#">Go to Home</a> */}</p>
         </section>
       ) : (
+        <div className="login_component">
+          <div className="login_form_comp">
         <section>
           <p
             ref={errRef}
@@ -101,8 +104,13 @@ const Login = (props) => {
           </form>
           <button onClick={togle_component}> register </button>
         </section>
+        </div>
+        <div className="imgdiv"><img className="background_image" src={login_regiter}/></div>
+        </div>
       )}
+     
     </>
+    
   );
 };
 

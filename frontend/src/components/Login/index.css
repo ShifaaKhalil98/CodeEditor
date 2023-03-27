@@ -72,3 +72,11 @@ input[type='password']{
   a{margin-top: -60px;
     color: #09ffa7;
 }
+.login_component{
+    display: flex;
+    flex-direction: row;
+
+}
+.background_image{
+    width: 50%;
+}
