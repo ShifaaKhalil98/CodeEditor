@@ -16,3 +16,18 @@
   width: 100%;
   padding: 40px;
 }
+
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input-container {
+  border: 2px solid #09ffa7;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 60px;
+}
