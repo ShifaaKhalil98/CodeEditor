@@ -6,11 +6,13 @@ import search_pic from "../../images/search.png";
 import files_pic from "../../images/folder.png";
 import loading_pic from "../../images/loading.gif";
 import { saveAs } from "file-saver";
+import { useNavigate } from "react-router-dom";
 import UserCard from "../../components/UserCard/UserCard";
 import FileCard from "../../components/FileCard/FileCard";
 import ChatsList from "../../components/ChatsList/ChatsList";
 
 export default function Editor() {
+  const navigate = useNavigate()
   const [signed_in, setSignedIn] = useState(false);
   const [user_photo, setUserPhoto] = useState();
   const [console_open, setConsoleOpen] = useState(false);
@@ -32,30 +34,42 @@ export default function Editor() {
   const [isPopupOpen, setPopupOpen] = useState(false);
 
   const handleSave = () => {
-    const code_data = new FormData();
-    code_data.append("content", code);
-    code_data.append("name", filename);
     const token = localStorage.getItem("token");
-    axios
-      .post("http://localhost:8000/api/savefile", code_data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setPopupOpen(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    if(token) {
+      const code_data = new FormData();
+      code_data.append("content", code);
+      code_data.append("name", filename);
+      axios
+        .post("http://localhost:8000/api/savefile", code_data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setPopupOpen(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } 
+    }
 
   const handleSaveClick = () => {
-    if (code.length > 0) {
-      setFilename("");
-      setPopupOpen(true);
+    const token = localStorage.getItem("token");
+    if(token) {
+      if (code.length > 0) {
+        setFilename("");
+        setPopupOpen(true);
+      }
+    }
+    else {
+      navigate(`/Login_Register`)
     }
   };
+
+  const openFile = (id, content) => {
+    setCode(content)
+  }
 
   // const handleInputChange = (event) => {
   //   setMessageContent(event.target.value);
@@ -106,20 +120,23 @@ export default function Editor() {
   }, [search_val]);
 
   const getFiles = () => {
-    const token = localStorage.getItem("token");
-    axios
-      .get(`http://localhost:8000/api/getfiles`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setUserFiles(res.data);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjc5OTE0NzE5LCJleHAiOjE2Nzk5MTgzMTksIm5iZiI6MTY3OTkxNDcxOSwianRpIjoiYm9lR1l2bkVpSlRRWnF1RiIsInN1YiI6IjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.umqhRLCns7fWGUNjtM6gM6q34spPbstvBGP95oH14cE";
+    if(token) {
+      axios
+        .get(`http://localhost:8000/api/getfiles`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res)
+          setUserFiles(res.data);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    }
   };
   const openSideBar = (selected) => {
     (selected == sidebar_selected || !sidebar_open) &&
@@ -290,6 +307,7 @@ export default function Editor() {
                 className="search-bar"
                 value={search_val}
                 onChange={(e) => setSearchVal(e.target.value)}
+                placeholder="Search"
               />
               {search_res &&
                 search_res.map((user) => <UserCard name={user.name} />)}
@@ -298,9 +316,9 @@ export default function Editor() {
           {sidebar_selected == "files" && (
             <div>
               {user_files ? (
-                user_files.map((file) => {
-                  <FileCard name={file.name} id={file.id} />;
-                })
+                user_files.map((file) => 
+                  <FileCard name={file.name} id={file.id} content={file.content} openFile={() => openFile(file.id, file.content)} />
+              )
               ) : (
                 <span>No files to show</span>
               )}

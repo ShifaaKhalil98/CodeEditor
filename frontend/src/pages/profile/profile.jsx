@@ -7,7 +7,7 @@ import "../../../src/base.css";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import Editor from "../Editor/Editor";
-
+const baseUrl = "http://localhost:8000";
 const Profile = () => {
   const baseUrl = "http://localhost:8000";
   const navigate = useNavigate;

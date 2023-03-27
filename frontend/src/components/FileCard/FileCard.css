@@ -1,0 +1,38 @@
+.filecard-container {
+    align-items: center;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    background-color: rgb(32, 32, 32);
+    transition: all 0.3s;
+}
+
+.file-details {
+    gap: 1rem;
+    display: flex;
+    color: white;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.file-details h2 {
+    margin: 0;
+}
+
+
+.file-details button {
+    width: 100%;
+    background-color: var(--main);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.action-buttons {
+    display: flex;
+    width: 30%;
+    gap: 1rem;
+    flex-direction: column;
+}
