@@ -1,7 +1,11 @@
 import { useRef, useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
+import Editor from "../../pages/Editor/Editor";
 const Register = () => {
-    const userRef = useRef();
+  const navigate = useNavigate();
+const userRef = useRef();
 const errRef = useRef();
 const [user, setUser] = useState("");
 const [validName, setValidName] = useState(false);
@@ -13,10 +17,42 @@ const [matchPwd, setMatchPwd] = useState("");
 const [validMatch, setValidMatch] = useState(false);
 const [matchFocus, setMatchFocus] = useState(false);
 const [errMsg, setErrMsg] = useState("");
-const [success, setSuccess] = useState(false);
+const [email, setEmail] = useState("")
+const [success, setSuccess] = useState(false); 
+const [name, setName] = useState("")
+const [validationErrors, setValidationErrors] = useState({});
+const [isSubmitting, setIsSubmitting] = useState(false);
+useEffect(()=>{
+  if(localStorage.getItem('token') != "" && localStorage.getItem('token') != null){
+      navigate("/dashboard");
+  }
+},[])
+
+const registerAction = (e) => {
+  e.preventDefault();
+  setIsSubmitting(true)
+  let payload = {
+      name: name,
+      email:email,
+      password:pwd,
+      password_confirmation:matchPwd
+  }
+  axios.post('http://localhost:8000/api/login', payload)
+  .then((r) => {
+      setIsSubmitting(false)
+      localStorage.setItem('token', r.data.token)
+      navigate("/dashboard");
+  })
+  .catch((e) => {
+      setIsSubmitting(false)
+      if (e.response.data.errors != undefined) {
+          setValidationErrors(e.response.data.errors);
+      }
+  });
+}
     return (
-      <>
-        <section>
+     
+        <section className="section">
           <p
             ref={errRef}
             className={errMsg ? "errmsg" : "offscreen"}
@@ -24,42 +60,33 @@ const [success, setSuccess] = useState(false);
           >
             {errMsg}
           </p>
-          <h1>Register your account</h1>
-          <form >
-            <label htmlFor="username">
-              Username:
-              
-            
-            </label>
-            <input
+          <h1 className="title">Register your account</h1>
+          <form onSubmit={(e)=>{registerAction(e)}} className="register">
+            <label htmlFor="text"> Username: </label>
+            <input 
               type="text"
               id="username"
-              ref={userRef}
               autoComplete="off"
-              onChange={(e) => setUser(e.target.value)}
-              value={user}
+              onChange={(e) => setName(e.target.value)}
+              value={setName}
               required
-              aria-invalid={validName ? "false" : "true"}
-              aria-describedby="uidnote"
-              onFocus={() => setUserFocus(true)}
-              onBlur={() => setUserFocus(false)}
             />
-            <p id="uidnote">
-             
-              4 to 24 characters.
-              <br />
-              Must begin with a letter.
-              <br />
-              Letters, numbers, underscores, hyphens allowed.
-            </p>
-            <label htmlFor="password">
-              Password:
-              
-              
-            </label>
+             <label htmlFor="email"> email: </label>
+            <input
+              type="email"
+              id="eamil"
+              autoComplete="off"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
+            />
+            
+            <label htmlFor="password"> Password: </label>
             <input
               type="password"
               id="password"
+              autoComplete="off"
+
               onChange={(e) => setPwd(e.target.value)}
               value={pwd}
               required
@@ -68,29 +95,8 @@ const [success, setSuccess] = useState(false);
               onFocus={() => setPwdFocus(true)}
               onBlur={() => setPwdFocus(false)}
             />
-            <p
-              id="pwdnote"
-              className={
-                pwdFocus && !validPwd
-                  ? "instructions"
-                  : "offscreen"
-              }
-            >
-              
-              8 to 24 characters.
-              <br />
-              Must include uppercase and lowercase letters, a
-              number and a special character.
-              <br />
-              Allowed special characters:{" "}
-              <span aria-label="exclamation mark">
-                !
-              </span>{" "}
-              <span aria-label="at symbol">@</span>{" "}
-              <span aria-label="hashtag">#</span>{" "}
-              <span aria-label="dollar sign">$</span>{" "}
-              <span aria-label="percent">%</span>
-            </p>
+           
+           
             <label htmlFor="confirm_pwd">
               Confirm Password:
               
@@ -99,6 +105,8 @@ const [success, setSuccess] = useState(false);
             <input
               type="password"
               id="confirm_pwd"
+              autoComplete="off"
+
               onChange={(e) => setMatchPwd(e.target.value)}
               value={matchPwd}
               required
@@ -118,27 +126,16 @@ const [success, setSuccess] = useState(false);
               
               Must match the first password input field.
             </p>
-            <button
-              disabled={
-                !validName || !validPwd || !validMatch
-                  ? true
-                  : false
-              }
-            >
+            <button className="sign_up" >
               Sign Up
             </button>
           </form>
-          <p>
-            Already registered?
-            <br />
-            <span className="line">
-              {/*put router link here*/}
-              {/* <a href="#">Sign In</a> */}
-            </span>
-          </p>
+          <a href={"/Editor"}>
+         Already registered?
+         </a>
         </section>
         
-      </>
+     
     );
   };
   

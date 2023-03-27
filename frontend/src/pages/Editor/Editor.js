@@ -23,12 +23,7 @@ export default function Editor() {
   const [loading, setLoading] = useState(false);
   const [search_val, setSearchVal] = useState("");
   const [search_res, setSearchRes] = useState([]);
-  // const [activeChat, setActiveChat] = useState(null);
-  // const [chatData, setChatData] = useState([]);
-  // const [chats, setChats] = useState([]);
-  // const [receiver, setReceiver] = useState([]);
   const [is_readonly, setReadOnly] = useState(true);
-  // const [messageContent, setMessageContent] = useState("");
   const [filename, setFilename] = useState("");
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -190,87 +185,6 @@ export default function Editor() {
     saveAs(file, "my_python_code.py");
   };
 
-  // const ChatsList = ({ onChatClick }) => {
-  //   useEffect(() => {
-  //     axios
-  //       .get("http://127.0.0.1:8000/api/getChats")
-  //       .then((response) => setChats(response.data))
-  //       .catch((error) => console.log(error));
-  //   }, []);
-
-  //   return (
-  //     <div>
-  //       <h2>Chats</h2>
-  //       {chats.map((chat) => (
-  //         <div
-  //           key={chat.id}
-  //           className="chat-card"
-  //           onClick={() =>
-  //             onChatClick(chat.id, chat.user.profile_picture, chat.user.name)
-  //           }
-  //         >
-  //           <img src={chat.user.profile_picture} alt="User" />
-  //           <h2>
-  //             {chat.user.name.charAt(0).toUpperCase() + chat.user.name.slice(1)}
-  //           </h2>
-  //         </div>
-  //       ))}
-  //     </div>
-  //   );
-  // };
-
-  // const Conv = ({ chat_id }) => {
-  //   useEffect(() => {
-  //     axios
-  //       .get(`http://127.0.0.1:8000/api/getSingleChat/${chat_id}`)
-  //       .then((response) => setChatData(response.data))
-  //       .catch((error) => console.log(error));
-  //   }, []);
-
-  //   useEffect(() => {
-  //     axios
-  //       .get("http://localhost:8000/api/getReceiver")
-  //       .then((response) => setReceiver(response.data))
-  //       .catch((error) => console.log(error));
-  //   }, []);
-
-  //   return (
-  //     <>
-  //       <div>
-  //         <div key={receiver.id} className="chat-head">
-  //           <button type="button" onClick={() => setActiveChat(null)}>
-  //             {"\u2190"}
-  //           </button>
-  //           <img src={receiver.profile_picture} alt="user" />
-  //           <h2>{receiver.name}</h2>
-  //         </div>
-  //       </div>
-  //       <div className="chat-head"></div>
-  //       <div className="chat-container">
-  //         <div>
-  //           {chatData.map((message) => (
-  //             <div key={message.id}>
-  //               <h4>{message.content}</h4>
-  //             </div>
-  //           ))}
-  //         </div>
-  //         <div>
-  //           <form>
-  //             <input
-  //               className="message-input"
-  //               type="text"
-  //               placeholder="Type a message..."
-  //               value={messageContent}
-  //               onChange={(e) => handleInputChange(e)}
-  //               onKeyDown={(e) => handleKeyDown(e)}
-  //             />
-  //           </form>
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // };
-
   return (
     <div>
       <div className="header">
@@ -328,12 +242,7 @@ export default function Editor() {
               )}
             </div>
           )}
-          {sidebar_selected == "messages" && (
-            <div>
-              {/* {activeChat ? <Conv chat_id={activeChat} /> : <ChatsList />} */}
-              {<ChatsList />}
-            </div>
-          )}
+          {sidebar_selected == "messages" && <div>{<ChatsList />}</div>}
         </div>
         <div className="editor">
           <textarea

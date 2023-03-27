@@ -33,8 +33,12 @@ const ChatsList = ({ onChatClick }) => {
           ))}
         </>
       )}
+
       {activeChat && (
-        <Conversation chat={chats.find((chat) => chat.id === activeChat)} />
+        <Conversation
+          chat_id={chats.find((chat) => chat.id === activeChat)?.id}
+          setActiveChat={setActiveChat}
+        />
       )}
     </div>
   );

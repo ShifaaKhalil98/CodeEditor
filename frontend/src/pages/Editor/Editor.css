@@ -1,6 +1,6 @@
 :root {
   --main: #09ffa7;
-  --grey: #2a2a2a;
+  --grey: #2f2f2f;
 }
 html {
   background-color: #090909;
@@ -68,7 +68,7 @@ html {
   border-radius: 1rem;
   height: 100%;
   width: 100%;
-  background-color: #1a1a1a;
+  background-color: var(--dark-grey);
   box-sizing: border-box;
   border: none;
   padding: 1rem;
@@ -171,7 +171,7 @@ button img {
   box-sizing: border-box;
   border-radius: 1rem;
   border: none;
-  background-color: #1a1a1a;
+  background-color: var(--dark-grey);
   color: white;
 }
 
@@ -208,14 +208,29 @@ button img {
 .chat-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 65vh;
+  /* justify-content: space-between; */
+  padding-right: 20px;
+  height: 50vh;
   color: white;
+  overflow-y: scroll;
 }
-.chat-container input {
+.message-form input {
   width: 97%;
 }
-
+.chat-container::-webkit-scrollbar {
+  width: 8px;
+  height: 2px;
+  /* display: none; */
+}
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: var(--dark-grey);
+}
+.sent {
+  align-self: flex-end;
+}
+.received {
+  align-self: flex-start;
+}
 .modal {
   position: fixed;
   z-index: 1;
@@ -246,7 +261,7 @@ button img {
 .modal-content input {
   width: 100%;
   padding: 1rem;
-  background-color: #1a1a1a;
+  background-color: var(--dark-grey);
   border: none;
   color: white;
   border-radius: 1rem;
