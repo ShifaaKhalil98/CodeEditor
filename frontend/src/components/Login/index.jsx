@@ -46,15 +46,15 @@ const Login = (props) => {
         localStorage.setItem("token", r.data.authorisation.token);
         navigate("/editor", { state: { name:'sabaoon'}});
       })
-      .catch((e) => {
-        // setIsSubmitting(false);
-        // if (e.response.data.errors != undefined) {
-        //   setValidationErrors(e.response.data.errors);
-        // }
-        // if (e.response.data.error != undefined) {
-        //   setValidationErrors(e.response.data.error);
-        // }
-      });
+      // .catch((r) => {
+      //    setIsSubmitting(false);
+      //   if (r.response.data.errors != undefined) {
+      //     setValidationErrors(e.response.data.errors);
+      //    }
+      //    if (r.response.data.error != undefined) {
+      //      setValidationErrors(e.response.data.error);
+      //   }
+      // });
   };
   return (
     <>
