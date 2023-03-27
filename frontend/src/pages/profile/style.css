@@ -20,7 +20,14 @@
   flex-direction: column;
   box-sizing: border-box;
 }
-
+.back-button {
+  color: #09ffa7;
+  background-color: transparent;
+  border: none;
+  align-self: flex-start;
+  margin-left: 60px;
+  margin-bottom: 20px;
+}
 .profile-main {
   display: flex;
   flex-direction: column;
