@@ -228,7 +228,7 @@ export default function Editor() {
   return (
     <div>
       <div className="header">
-        <h1>CODING</h1>
+        <h1>CodeVerse</h1>
         {signed_in ? (
           <img src={user_photo} className="user-photo" onClick={() => navigate('/profile')}/>
         ) : (

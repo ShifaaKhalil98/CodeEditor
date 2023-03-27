@@ -8,14 +8,8 @@ const Register = (props) => {
   const { togle_component } = props;
 
   const navigate = useNavigate();
-  const userRef = useRef();
-  const errRef = useRef();
-  const [user, setUser] = useState("");
-  const [validName, setValidName] = useState(false);
-  const [userFocus, setUserFocus] = useState(false);
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
-  const [pwdFocus, setPwdFocus] = useState(false);
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
@@ -76,6 +70,8 @@ const Register = (props) => {
           autoComplete="off"
           onChange={(e) => setName(e.target.value)}
           value={name}
+          placeholder="Enter Name"
+
           required
         />
         <label htmlFor="email"> email: </label>
@@ -85,6 +81,8 @@ const Register = (props) => {
           autoComplete="off"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
+          placeholder="Enter Email"
+
           required
         />
 
@@ -95,6 +93,8 @@ const Register = (props) => {
           autoComplete="off"
           onChange={(e) => setPwd(e.target.value)}
           value={pwd}
+          placeholder="Enter password"
+
           required
           aria-invalid={validPwd ? "false" : "true"}
           aria-describedby="pwdnote"
@@ -109,6 +109,8 @@ const Register = (props) => {
           autoComplete="off"
           onChange={(e) => setMatchPwd(e.target.value)}
           value={matchPwd}
+          placeholder="Re-Enter Password"
+
           required
           aria-invalid={validMatch ? "false" : "true"}
           aria-describedby="confirmnote"
@@ -130,7 +132,7 @@ const Register = (props) => {
     </section>
     </div>
     <div className="imgdiv"><img className="background_image" src={register_background}  />
-    
+        
     </div>
         
     </div>
