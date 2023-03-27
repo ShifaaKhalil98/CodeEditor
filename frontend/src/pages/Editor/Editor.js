@@ -307,6 +307,7 @@ export default function Editor() {
                 className="search-bar"
                 value={search_val}
                 onChange={(e) => setSearchVal(e.target.value)}
+                placeholder="Search"
               />
               {search_res &&
                 search_res.map((user) => <UserCard name={user.name} />)}
