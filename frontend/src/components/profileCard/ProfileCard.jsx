@@ -11,7 +11,7 @@ const ProfileCard = ({ name, pic = null }) => {
   return (
     <div className="profile-card ">
       <div className="image">
-        <img src={pic ? pic : profile_pic} />
+        <img className="img" src={pic ? pic : profile_pic} />
       </div>
       <div className="name">
         <h2>{name}</h2>
