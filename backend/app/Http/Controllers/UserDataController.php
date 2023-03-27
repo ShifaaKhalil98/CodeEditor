@@ -35,12 +35,18 @@ class UserDataController extends Controller{
         $id = Auth::user()->id;
         $name = $request->input('name');
         $content = $request->input('content');
+        $file_id = $request->input('id');
 
-        $file = File::create([
+        if ($file_id) {
+            $file = File::where('id', $file_id)
+                    ->update(['content' => $content]);
+        } else {
+            $file = File::create([
             'user_id' => $id,
             'name' => $name,
             'content' => $content
         ]);
+        }
 
         return response()->json($file);
     }
