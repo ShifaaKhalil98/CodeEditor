@@ -72,4 +72,10 @@
         color: black;
         font-weight: bolder;
       }
- 
+      .register_component{
+        display: flex;
+        flex-direction: row-reverse;
+    
+    }
+    .imgdiv{
+    }

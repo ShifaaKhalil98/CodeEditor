@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
 import Login from "../Login";
-import Login_Register from "../../pages/Login_Register";
+import login_regiter from  "../../images/login_regiter.png";
 const Register = (props) => {
   const { togle_component } = props;
 
@@ -58,6 +58,8 @@ const Register = (props) => {
       });
   };
   return (
+    <div className="register_component">
+      <div className="register_form_comp">
     <section className="section">
       <p
         ref={errRef}
@@ -129,6 +131,10 @@ const Register = (props) => {
       </form>
       <button onClick={togle_component}>already registered</button>
     </section>
+    </div>
+    <div className="imgdiv"><img className="background_image" src={login_regiter}/></div>
+        
+    </div>
   );
 };
 
