@@ -8,17 +8,31 @@ function UserList() {
   const [admin, setAdmin] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/users")
-      .then((response) => setUsers(response.data))
-      .catch((error) => console.log(error));
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get("http://localhost:8000/api/users", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => setUsers(response.data))
+        .catch((error) => console.log(error));
+    }
   }, []);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/getAdmin")
-      .then((response) => setAdmin(response.data))
-      .catch((error) => console.log(error));
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get("http://localhost:8000/api/getAdmin", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => setAdmin(response.data))
+        .catch((error) => console.log(error));
+    }
   }, []);
 
   return (

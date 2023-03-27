@@ -44,7 +44,7 @@ const Login = (props) => {
         console.log(r);
         setIsSubmitting(false);
         localStorage.setItem("token", r.data.authorisation.token);
-        // navigate("/editor", { state: { name: r.data.name } });
+        navigate("/editor", { state: { name:'sabaoon'}});
       })
       .catch((e) => {
         // setIsSubmitting(false);

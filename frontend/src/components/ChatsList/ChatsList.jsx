@@ -13,10 +13,17 @@ const ChatsList = ({ onChatClick }) => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/getChats")
-      .then((response) => setChats(response.data))
-      .catch((error) => console.log(error));
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios
+        .get("http://127.0.0.1:8000/api/getChats", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => setChats(response.data))
+        .catch((error) => console.log(error));
+    }
   }, []);
 
   return (

@@ -38,20 +38,19 @@ class AdminController extends Controller{
     }
 
     public function getAdmin(){
+
         $user = auth()->user();
 
         if ($user && $user->user_type === 'admin') {
-            $admin = $user;
+            $admin = User::where('user_type' ,'admin')->get();
+            return response()->json($admin);
+
         } else {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
  
-        if($admin){
+        
 
-            $admin = User::where('user_type' ,'admin')->get();
-
-            return response()->json($admin);
-        }
     }
 
 }
