@@ -28,7 +28,7 @@ const Login = (props) => {
  
     useEffect(()=>{
         if(localStorage.getItem('token') != "" && localStorage.getItem('token') != null){
-            navigate("/dashboard");
+            navigate("/editor");
         }
         console.log(localStorage.getItem('token'))
     },[])
@@ -43,7 +43,7 @@ const Login = (props) => {
         axios.post('http://localhost:8000/api/login', login_data)
         .then((r) => {
             setIsSubmitting(false)
-            localStorage.setItem('token', r.data.token)
+            localStorage.setItem('token', r.data.authorization.token)
             navigate("/editor");
         })
         .catch((e) => {
