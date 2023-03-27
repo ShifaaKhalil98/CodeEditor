@@ -155,6 +155,7 @@ export default function Editor() {
     (selected == sidebar_selected || !sidebar_open) &&
       setSidebarOpen(!sidebar_open);
     setSidebarSelected(selected);
+    setUserChatID()
   };
 
   const compile = (input) => {
