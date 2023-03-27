@@ -1,22 +1,21 @@
 import "./FileCard.css";
 import React, { useState, useEffect } from "react";
 
-const FileCard = ({ name, id }) => {
+const FileCard = ({ name, id, content, openFile }) => {
 
-    const openFile = () => {
-
-    }
 
     const deleteFile = () => {
 
     }
     
   return (
-    <div className="card-container">
-      <div className="details">
+    <div className="filecard-container">
+      <div className="file-details">
         <h2>{name}</h2>
-        <button onClick={openFile(id)}>Open</button>
+        <div className="action-buttons">
+        <button onClick={() => openFile(id, content)}>Open</button>
         <button onClick={deleteFile(id)}>Delete</button>
+        </div>
       </div>
     </div>
   );

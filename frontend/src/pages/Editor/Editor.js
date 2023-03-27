@@ -67,6 +67,10 @@ export default function Editor() {
     }
   };
 
+  const openFile = (id, content) => {
+    setCode(content)
+  }
+
   // const handleInputChange = (event) => {
   //   setMessageContent(event.target.value);
   // };
@@ -312,7 +316,7 @@ export default function Editor() {
             <div>
               {user_files ? (
                 user_files.map((file) => 
-                  <FileCard name={file.name} id={file.id} />
+                  <FileCard name={file.name} id={file.id} content={file.content} openFile={() => openFile(file.id, file.content)} />
               )
               ) : (
                 <span>No files to show</span>
