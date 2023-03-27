@@ -1,9 +1,11 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom"
+import Login_Register from "../../pages/Login_Register";
 
 import "./index.css";
-const Login = () => {
+const Login = (props) => {
+  const {togle_component}=props;
   const userRef = useRef();
   const errRef = useRef();
   const [user, setUser] = useState("");
@@ -93,7 +95,7 @@ const Login = () => {
             <button className="sign_in">Sign In</button>
             
           </form>
-          <a href="#">Already registered?</a>
+          <button onClick={togle_component}> register </button>
             
              
             
