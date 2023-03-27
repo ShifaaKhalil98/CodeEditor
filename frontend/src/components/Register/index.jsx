@@ -121,9 +121,12 @@ const Register = (props) => {
         >
           Must match the first password input field.
         </p>
+        <div className="buttons_div">
         <button className="sign_up">Sign Up</button>
+        <button className="btnlogin" onClick={togle_component}>already registered</button>
+        </div>
       </form>
-      <button onClick={togle_component}>already registered</button>
+     
     </section>
     </div>
     <div className="imgdiv"><img className="background_image" src={login_regiter}/></div>

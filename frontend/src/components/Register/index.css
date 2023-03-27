@@ -92,3 +92,23 @@
         width: 100%;
         height: 800px;
     }
+    .btnlogin{
+        background-color: transparent;
+        color: white;
+        border: none;
+    
+    
+    }
+    .sign_up:hover{
+        background-color: #7cab9b;
+    
+    }
+    .sign_up:active{
+        background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
+    .buttons_div{
+        display: flex;
+        flex-direction: row-reverse;
+    }
