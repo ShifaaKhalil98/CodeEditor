@@ -60,9 +60,9 @@ class UserDataController extends Controller{
         $file_path = public_path('images/'. $id . 'op' . '.png');
     
         file_put_contents($file_path,$decoded);
-    
-        User::where("id",$id)->update("profile_picture", "http://localhost/images" . $id . ".png");
+        $image_url = "http://localhost/images" . $id . ".png";
+        User::where("id",$id)->update("profile_picture", $image_url);
         
-        return response()->json(['message'=>'success']);
+        return response()->json(['message'=>'success', 'image_url'=>$image_url]);
     }
 }
