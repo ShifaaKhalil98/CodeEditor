@@ -14,7 +14,6 @@
     }
     label {
         color: #999;
-       /* position: absolute;*/
         pointer-events: none;
         left: 10px;
         top: 10px;
