@@ -32,17 +32,20 @@
         background-color: rgb(0, 0, 0);
         padding: 0 5px 0 5px;
       }
-      .login  {
+      .register  {
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
         flex-grow: 1;
         padding-bottom: 1rem;
+        align-items: inherit;
+        align-content: center;
+        flex-wrap: nowrap;
     
        
     
     
       }
+      input[type='text'],
       input[type='email'],
     input[type='password']{
         margin: 10px;
