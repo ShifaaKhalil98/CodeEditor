@@ -1,7 +1,14 @@
 .flex{
     display: flex;
     flex-direction:row;
-    justify-content: space-around;
+    justify-content: space-between;
 
 }
-.login{text-align: center;}
+.login{
+    margin-left: 200px;
+}
+.background_image {
+   
+    width: 900px;
+    height: 740px;
+}

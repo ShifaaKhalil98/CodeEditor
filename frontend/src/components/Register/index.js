@@ -16,7 +16,7 @@ const [errMsg, setErrMsg] = useState("");
 const [success, setSuccess] = useState(false);
     return (
       <>
-        <section>
+        <section className="section">
           <p
             ref={errRef}
             className={errMsg ? "errmsg" : "offscreen"}
@@ -24,8 +24,8 @@ const [success, setSuccess] = useState(false);
           >
             {errMsg}
           </p>
-          <h1>Register your account</h1>
-          <form >
+          <h1 className="title">Register your account</h1>
+          <form className="login">
             <label htmlFor="username">
               Username:
               
@@ -44,14 +44,7 @@ const [success, setSuccess] = useState(false);
               onFocus={() => setUserFocus(true)}
               onBlur={() => setUserFocus(false)}
             />
-            <p id="uidnote">
-             
-              4 to 24 characters.
-              <br />
-              Must begin with a letter.
-              <br />
-              Letters, numbers, underscores, hyphens allowed.
-            </p>
+            
             <label htmlFor="password">
               Password:
               
@@ -68,29 +61,8 @@ const [success, setSuccess] = useState(false);
               onFocus={() => setPwdFocus(true)}
               onBlur={() => setPwdFocus(false)}
             />
-            <p
-              id="pwdnote"
-              className={
-                pwdFocus && !validPwd
-                  ? "instructions"
-                  : "offscreen"
-              }
-            >
-              
-              8 to 24 characters.
-              <br />
-              Must include uppercase and lowercase letters, a
-              number and a special character.
-              <br />
-              Allowed special characters:{" "}
-              <span aria-label="exclamation mark">
-                !
-              </span>{" "}
-              <span aria-label="at symbol">@</span>{" "}
-              <span aria-label="hashtag">#</span>{" "}
-              <span aria-label="dollar sign">$</span>{" "}
-              <span aria-label="percent">%</span>
-            </p>
+           
+           
             <label htmlFor="confirm_pwd">
               Confirm Password:
               
@@ -118,24 +90,13 @@ const [success, setSuccess] = useState(false);
               
               Must match the first password input field.
             </p>
-            <button
-              disabled={
-                !validName || !validPwd || !validMatch
-                  ? true
-                  : false
-              }
-            >
+            <button className="sign_up" >
               Sign Up
             </button>
           </form>
-          <p>
+          <a href="#">
             Already registered?
-            <br />
-            <span className="line">
-              {/*put router link here*/}
-              {/* <a href="#">Sign In</a> */}
-            </span>
-          </p>
+          </a>
         </section>
         
       </>
