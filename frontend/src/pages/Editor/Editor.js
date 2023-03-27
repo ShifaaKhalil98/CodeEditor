@@ -230,7 +230,7 @@ export default function Editor() {
       <div className="header">
         <h1>CODING</h1>
         {signed_in ? (
-          <img src={user_photo} className="user-photo" />
+          <img src={user_photo} className="user-photo" onClick={() => navigate('/profile')}/>
         ) : (
           <span onClick={() => navigate('/Login_Register')}>Sign In</span>
         )}
@@ -267,7 +267,7 @@ export default function Editor() {
             </div>
           )}
           {sidebar_selected == "files" && (
-            <div>
+            <div className="filelist-container">
               {user_files ? (
                 user_files.map((file) => (
                   <FileCard
