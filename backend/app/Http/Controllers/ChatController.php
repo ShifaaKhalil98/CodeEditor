@@ -7,6 +7,7 @@ use App\Models\Chat;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller{
 
@@ -51,17 +52,28 @@ class ChatController extends Controller{
     } 
     
     public function sendMessage(Request $request){
-
+        $validator = Validator::make($request->all(), [
+            'chat_id' => 'required',
+            'content' => 'required',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => $validator->errors()]);
+        }
+    
         $message = new Message();
-        $message->chat_id = $request->chat_id;;
-        $message->sender_id = $request->sender_id;
+        $message->chat_id = $request->chat_id;
+        $message->sender_id = 4;
         // $message->sender_id = Auth::id();
         $message->content = $request->content;
-        $message->save();
-
-        // return response()->json(['status' => 'success']);
-        return redirect()->back();
+    
+        if (!$message->save()) {
+            return response()->json(['status' => 'error', 'message' => 'Failed to save message.']);
+        }
+    
+        return response()->json(['status' => 'success', 'message' => $message]);
     }
+    
 }
 
 
