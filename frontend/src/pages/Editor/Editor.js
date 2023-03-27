@@ -6,11 +6,13 @@ import search_pic from "../../images/search.png";
 import files_pic from "../../images/folder.png";
 import loading_pic from "../../images/loading.gif";
 import { saveAs } from "file-saver";
+import { useNavigate } from "react-router-dom";
 import UserCard from "../../components/UserCard/UserCard";
 import FileCard from "../../components/FileCard/FileCard";
 import ChatsList from "../../components/ChatsList/ChatsList";
 
 export default function Editor() {
+  const navigate = useNavigate()
   const [signed_in, setSignedIn] = useState(false);
   const [user_photo, setUserPhoto] = useState();
   const [console_open, setConsoleOpen] = useState(false);
@@ -32,28 +34,36 @@ export default function Editor() {
   const [isPopupOpen, setPopupOpen] = useState(false);
 
   const handleSave = () => {
-    const code_data = new FormData();
-    code_data.append("content", code);
-    code_data.append("name", filename);
     const token = localStorage.getItem("token");
-    axios
-      .post("http://localhost:8000/api/savefile", code_data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setPopupOpen(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    if(token) {
+      const code_data = new FormData();
+      code_data.append("content", code);
+      code_data.append("name", filename);
+      axios
+        .post("http://localhost:8000/api/savefile", code_data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setPopupOpen(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } 
+    }
 
   const handleSaveClick = () => {
-    if (code.length > 0) {
-      setFilename("");
-      setPopupOpen(true);
+    const token = localStorage.getItem("token");
+    if(token) {
+      if (code.length > 0) {
+        setFilename("");
+        setPopupOpen(true);
+      }
+    }
+    else {
+      navigate(`/Login_Register`)
     }
   };
 
