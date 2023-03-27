@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import user_image from "../../images/profile_pic.png";
 import "./Admin.css";
-import search from "../../images/search.png";
+import Navbar from "../../components/Navbar";
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -24,11 +23,8 @@ function UserList() {
 
   return (
     <>
-      <div className="nav">
-        <h1>CODING</h1>
-        <div>
-          <img src={search} className="search" />
-        </div>
+      <div className="nav-main">
+        <Navbar />
       </div>
       <div className="container">
         <div className="admin-card">
@@ -48,7 +44,6 @@ function UserList() {
                 <th>Email</th>
                 <th>Profile picture</th>
                 <th>Number of saved files</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -57,7 +52,7 @@ function UserList() {
                   <td>{user.name}</td>
                   <td> {user.email}</td>
                   <td>{user.profile_picture}</td>
-                  <td>Browse</td>
+                  <td>{user.files_count}</td>
                 </tr>
               ))}
             </tbody>

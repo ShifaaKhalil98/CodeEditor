@@ -1,4 +1,7 @@
 import { useRef, useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom"
+
 import "./index.css";
 const Login = () => {
   const userRef = useRef();
@@ -7,18 +10,55 @@ const Login = () => {
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  const navigate = useNavigate();
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [validationErrors, setValidationErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, []);
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd]);
 
+  
+ 
+    useEffect(()=>{
+        if(localStorage.getItem('token') != "" && localStorage.getItem('token') != null){
+            navigate("/dashboard");
+        }
+        console.log(localStorage.getItem('token'))
+    },[])
+ 
+    const loginAction = (e) => {
+        setValidationErrors({})
+        e.preventDefault();
+        setIsSubmitting(true)
+        const login_data = new FormData()
+        login_data.append('email', email)
+        login_data.append('password', pwd)
+        axios.post('http://localhost:8000/api/login', login_data)
+        .then((r) => {
+            setIsSubmitting(false)
+            localStorage.setItem('token', r.data.token)
+            navigate("/editor");
+        })
+        .catch((e) => {
+            setIsSubmitting(false)
+            if (e.response.data.errors != undefined) {
+                setValidationErrors(e.response.data.errors);
+            }
+            if (e.response.data.error != undefined) {
+                setValidationErrors(e.response.data.error);
+            }
+        });
+    }
   return (
     <>
       {success ? (
-        <section>
-          <h1>You are logged in!</h1>
+        <section className="section">
+          <h1 >You are logged in!</h1>
           <br />
           <p>{/* <a href="#">Go to Home</a> */}</p>
         </section>
@@ -31,16 +71,15 @@ const Login = () => {
           >
             {errMsg}
           </p>
-          <h1>Sign In</h1>
-          <form >
-            <label For="email">Username:</label>
+          <h1 className="title">Sign In</h1>
+          <form onSubmit={(e)=>{loginAction(e)}} className="login">
+            <label For="email">Email:</label>
             <input
               type="email"
               id="eamil"
-              ref={userRef}
               autoComplete="off"
-              onChange={(e) => setUser(e.target.value)}
-              value={user}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               required
             />
             <label htmlFor="password">Password:</label>
@@ -51,7 +90,7 @@ const Login = () => {
               value={pwd}
               required
             />
-            <button>Sign In</button>
+            <button className="sign_in">Sign In</button>
             <a href="#">Already registered?</a>
           </form>
             

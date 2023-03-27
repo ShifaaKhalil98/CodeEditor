@@ -1,51 +1,43 @@
 :root {
   --main: #09ffa7;
-  /* --grey: #575555; */
 }
 html {
   background-color: black;
 }
-
-.nav {
-  display: flex;
-  /* flex-direction: column; */
-  /* width: 2%; */
-  /* min-width: 2rem; */
-  padding: 1rem;
-  /* gap: 2rem; */
-  margin-bottom: 50px;
-}
-
-.search {
-  height: 30px;
-  width: 30px;
-}
-
 .container {
   display: flex;
-  /* justify-content: space-between; */
-  column-gap: 1%;
   text-align: center;
+  margin-top: 40px;
 }
 .user-list {
   background-color: var(--grey);
-  padding: 20px;
+  padding: 20px 20px 50px 20px;
   border-radius: 32px;
-  flex-basis: 50%;
+  flex-basis: 55%;
   height: 50vh;
+  overflow-y: scroll;
   color: black;
+}
+.user-list::-webkit-scrollbar {
+  width: 8px;
+  height: 2px;
+  /* display: none; */
+}
+.user-list::-webkit-scrollbar-thumb {
+  background-color: black;
 }
 td,
 th {
-  height: 30px;
+  height: 50px;
   border: 1px solid;
+  padding: 5px;
 }
 table {
   border: 1px solid;
   border-collapse: collapse;
   color: black;
   margin: auto;
-  width: 80%;
+  width: 90%;
 }
 .admin-card {
   color: var(--main);

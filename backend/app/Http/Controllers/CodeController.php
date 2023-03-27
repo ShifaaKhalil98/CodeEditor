@@ -10,10 +10,12 @@ class CodeController extends Controller{
 
     public function compileCode(Request $request) {
         $code = $request->input('code');
+        $input = $request->input('input');
 
         $response = Http::post('https://api.anayak.com.np/compile/v2', [
             'LanguageChoice' => '5',
-            'Program' => $code
+            'Program' => $code,
+            'Input' => $input ? $input : ''
         ]);
         $data = $response->json();
 
