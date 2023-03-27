@@ -22,7 +22,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/getChats', [ChatController::class, 'getChats']);
     Route::get('/getSingleChat/{chat_id}', [ChatController::class, 'getSingleChat']);
     Route::get('/getReceiver', [ChatController::class, 'getReceiver']);
-    Route::get('/sendMessage/{chat_id}/{content}/{sender_id}', [ChatController::class, 'sendMessage']);
+    Route::post('/sendMessage', [ChatController::class, 'sendMessage']);
 // });
 
 
