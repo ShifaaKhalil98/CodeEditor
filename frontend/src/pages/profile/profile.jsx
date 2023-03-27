@@ -7,9 +7,22 @@ import "../../../src/base.css";
 import "./style.css";
 const Profile = () => {
   const [name, setName] = useState("");
-  const [pic, sePic] = useState(pic);
   const [selectedFile, setSelectedFile] = useState(null);
   const [files, setFiles] = useState([]);
+  const [imageData, setImageData] = useState(null);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImageData(reader.result);
+      axios
+        .post("/api/uploadImage", { imageData: reader.result })
+        .then((response) => {})
+        .catch((error) => {});
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     const getFiles = async () => {
@@ -23,9 +36,11 @@ const Profile = () => {
 
     getFiles();
   }, []);
+
   const handleFileOpen = (fileName) => {
     setSelectedFile(fileName);
   };
+
   const handleFileDelete = (fileName) => {
     axios
       .delete(`/api/files/${fileName}`)
@@ -38,7 +53,7 @@ const Profile = () => {
         console.error(error);
       });
   };
-  // didndt text the data
+  // didndt test the  reponse data
 
   return (
     <div>
@@ -47,7 +62,8 @@ const Profile = () => {
       </div>
       <div className="main flex jc-center ai-cneter ">
         <div className="profile-main flex ai-fs jc-center">
-          <ProfileCard name={"ayman"} pic={"../../images/profile_pic.png"} />
+          <ProfileCard name={"ayman"} pic={imageData} />
+          <input type="file" onChange={handleImageChange} />
         </div>
         <div className="files-main flex fd-column">
           <div className="file-container">

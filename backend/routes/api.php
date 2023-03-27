@@ -31,6 +31,7 @@ Route::controller(UserDataController::class)->group(function(){
     Route::get('/user_profile','user_profile');
     Route::middleware('auth:api')->get('/getfiles', 'getFiles');
     Route::middleware('auth:api')->delete('/deletefile', 'deletefile');
+    Route::middleware('auth:api')->post('/uploadImage', 'uploadImage');
     
 });
 
