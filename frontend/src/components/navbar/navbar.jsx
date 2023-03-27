@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   const signout = () => {
-    localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     axios
       .post("http://localhost:8000/api/logout", {
         headers: {
