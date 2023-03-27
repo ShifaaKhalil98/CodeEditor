@@ -12,7 +12,7 @@ import FileCard from "../../components/FileCard/FileCard";
 import ChatsList from "../../components/ChatsList/ChatsList";
 
 export default function Editor() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [signed_in, setSignedIn] = useState(false);
   const [user_photo, setUserPhoto] = useState();
   const [console_open, setConsoleOpen] = useState(false);
@@ -35,7 +35,7 @@ export default function Editor() {
 
   const handleSave = () => {
     const token = localStorage.getItem("token");
-    if(token) {
+    if (token) {
       const code_data = new FormData();
       code_data.append("content", code);
       code_data.append("name", filename);
@@ -51,25 +51,24 @@ export default function Editor() {
         .catch((err) => {
           console.log(err);
         });
-    } 
     }
+  };
 
   const handleSaveClick = () => {
     const token = localStorage.getItem("token");
-    if(token) {
+    if (token) {
       if (code.length > 0) {
         setFilename("");
         setPopupOpen(true);
       }
-    }
-    else {
-      navigate(`/Login_Register`)
+    } else {
+      navigate(`/Login_Register`);
     }
   };
 
   const openFile = (id, content) => {
-    setCode(content)
-  }
+    setCode(content);
+  };
 
   // const handleInputChange = (event) => {
   //   setMessageContent(event.target.value);
@@ -120,8 +119,8 @@ export default function Editor() {
   }, [search_val]);
 
   const getFiles = () => {
-    const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNjc5OTE0NzE5LCJleHAiOjE2Nzk5MTgzMTksIm5iZiI6MTY3OTkxNDcxOSwianRpIjoiYm9lR1l2bkVpSlRRWnF1RiIsInN1YiI6IjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.umqhRLCns7fWGUNjtM6gM6q34spPbstvBGP95oH14cE";
-    if(token) {
+    const token = " ";
+    if (token) {
       axios
         .get(`http://localhost:8000/api/getfiles`, {
           headers: {
@@ -129,7 +128,7 @@ export default function Editor() {
           },
         })
         .then((res) => {
-          console.log(res)
+          console.log(res);
           setUserFiles(res.data);
         })
         .catch((err) => {
@@ -316,9 +315,14 @@ export default function Editor() {
           {sidebar_selected == "files" && (
             <div>
               {user_files ? (
-                user_files.map((file) => 
-                  <FileCard name={file.name} id={file.id} content={file.content} openFile={() => openFile(file.id, file.content)} />
-              )
+                user_files.map((file) => (
+                  <FileCard
+                    name={file.name}
+                    id={file.id}
+                    content={file.content}
+                    openFile={() => openFile(file.id, file.content)}
+                  />
+                ))
               ) : (
                 <span>No files to show</span>
               )}
