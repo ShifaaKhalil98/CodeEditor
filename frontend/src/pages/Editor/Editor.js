@@ -11,7 +11,7 @@ import UserCard from "../../components/UserCard/UserCard";
 import FileCard from "../../components/FileCard/FileCard";
 import ChatsList from "../../components/ChatsList/ChatsList";
 
-export default function Editor() {
+export default function Editor(props) {
   const navigate = useNavigate();
   const [signed_in, setSignedIn] = useState(false);
   const [user_photo, setUserPhoto] = useState();
@@ -27,7 +27,8 @@ export default function Editor() {
   const [filename, setFilename] = useState("");
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
-
+  // const name = props.location.state?.name;
+  // console.log("user_name ", name);
   const handleSave = () => {
     const token = localStorage.getItem("token");
     if (token) {

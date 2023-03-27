@@ -7,7 +7,7 @@ import "../../../src/base.css";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import Editor from "../Editor/Editor";
-
+const token = localStorage.getItem("token");
 const Profile = () => {
   const baseUrl = "http://localhost:8000";
   const navigate = useNavigate;
@@ -25,7 +25,6 @@ const Profile = () => {
 
   useEffect(() => {
     const getFiles = () => {
-      const token = localStorage.getItem("token");
       if (token) {
         axios
           .get(`http://localhost:8000/api/getfiles`, {
@@ -49,13 +48,23 @@ const Profile = () => {
     navigate.push(`../Editor/Editor/${fileName}`);
   };
 
-  const handleFileDelete = (fileName) => {
+  const handleFileDelete = (id) => {
     axios
-      .delete(`${baseUrl}/api/files/${fileName}`)
+      .delete(`${baseUrl}/api/deletefile/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(() => {
-        axios.get(`${baseUrl}/api/getfiles`).then((response) => {
-          setFiles(response.data);
-        });
+        axios
+          .get(`${baseUrl}/api/getfiles`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            setFiles(response.data);
+          });
       })
       .catch((error) => {
         console.error(error);
@@ -85,22 +94,22 @@ const Profile = () => {
       </div>
       <div className="main flex jc-center ai-cneter ">
         <div className="profile-main">
-          <ProfileCard name={"ayman"} pic={imageData} />
+          <ProfileCard name={name} pic={imageData} />
           <div className="input-container">
             <h3>Update Profile Pic</h3>
             <input type="file" onChange={handleImageChange} />
           </div>
         </div>
-        <div className="files-main flex fd-column">
+        <div className="files-main ">
           <div className="file-container">
-            {files.map((file) => {
+            {files.map((file) => (
               <File
                 key={file.id}
                 fileName={file.name}
                 openeditor={() => handleFileOpen(fileName)}
-                deleteFile={() => handleFileDelete(fileName)}
-              />;
-            })}
+                deleteFile={() => handleFileDelete(file.id)}
+              />
+            ))}
           </div>
         </div>
       </div>

@@ -1,11 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+const token = localStorage.getItem("token");
 const Navbar = () => {
   const navigate = useNavigate();
   const signout = () => {
-    const token = localStorage.getItem("token");
     axios
       .post("http://localhost:8000/api/logout", {
         headers: {
