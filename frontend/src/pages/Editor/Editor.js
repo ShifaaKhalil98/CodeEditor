@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom'
 import axios from "axios";
 import "./Editor.css";
 import messages_pic from "../../images/bubble.png";
@@ -11,7 +12,7 @@ import UserCard from "../../components/UserCard/UserCard";
 import FileCard from "../../components/FileCard/FileCard";
 import ChatsList from "../../components/ChatsList/ChatsList";
 
-export default function Editor(props) {
+export default function Editor() {
   const navigate = useNavigate();
   const [signed_in, setSignedIn] = useState(false);
   const [user_photo, setUserPhoto] = useState();
@@ -27,10 +28,33 @@ export default function Editor(props) {
   const [filename, setFilename] = useState("");
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
-  // const name = props.location.state?.name;
-  // console.log("user_name ", name);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    getFiles();
+
+    if(token) {
+      refresh()
+    }
+  }, []);
+
+  const refresh = () => {
+    axios
+      .post("http://localhost:8000/api/refresh", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setSignedIn(true)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+
   const handleSave = () => {
-    const token = localStorage.getItem("token");
     if (token) {
       const code_data = new FormData();
       code_data.append("content", code);
@@ -51,7 +75,6 @@ export default function Editor(props) {
   };
 
   const handleSaveClick = () => {
-    const token = localStorage.getItem("token");
     if (token) {
       if (code.length > 0) {
         setFilename("");
@@ -65,37 +88,6 @@ export default function Editor(props) {
   const openFile = (id, content) => {
     setCode(content);
   };
-
-  // const handleInputChange = (event) => {
-  //   setMessageContent(event.target.value);
-  // };
-
-  // function handleKeyDown(e) {
-  //   if (e.key === "Enter") {
-  //     e.preventDefault();
-  //     sendMessage(messageContent);
-  //     setChatData("");
-  //   }
-  // }
-
-  // const sendMessage = () => {
-  //   // event.preventDefault();
-  //   const data = {
-  //     chat_id: activeChat.id,
-  //     content: messageContent,
-  //   };
-  //   axios
-  //     .post(`http://localhost:8000/api/sendMessage`, data)
-  //     .then((response) => {
-  //       setChatData([...chatData, response.data]);
-  //       setMessageContent("");
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
-  useEffect(() => {
-    getFiles();
-  }, []);
 
   useEffect(() => {
     if (search_val.length > 0) {
@@ -115,7 +107,6 @@ export default function Editor(props) {
   }, [search_val]);
 
   const getFiles = () => {
-    const token = " ";
     if (token) {
       axios
         .get(`http://localhost:8000/api/getfiles`, {
