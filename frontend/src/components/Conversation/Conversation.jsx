@@ -19,7 +19,7 @@ const Conversation = ({ chat_id, setActiveChat }) => {
         .then((response) => setChatData(response.data))
         .catch((error) => console.log(error));
     }
-  }, [chatData]);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -62,7 +62,7 @@ const Conversation = ({ chat_id, setActiveChat }) => {
           },
         })
         .then((response) => {
-          setChatData([...chatData, response.data]);
+          setChatData([...chatData, response.data.message]);
           setMessageContent("");
         })
         .catch((error) => console.log(error));

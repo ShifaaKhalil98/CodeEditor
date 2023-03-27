@@ -28,6 +28,7 @@ export default function Editor() {
   const [filename, setFilename] = useState("");
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [user_chat_id, setUserChatID] = useState();
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -203,6 +204,11 @@ export default function Editor() {
     saveAs(file, "my_python_code.py");
   };
 
+  const messageHandle = (id) => {
+    setSidebarSelected('messages')
+    setUserChatID(id)
+  }
+
   return (
     <div>
       <div className="header">
@@ -241,7 +247,7 @@ export default function Editor() {
                 placeholder="Search"
               />
               {search_res &&
-                search_res.map((user) => <UserCard name={user.name} />)}
+                search_res.map((user) => <UserCard name={user.name} messageHandle={() => messageHandle(user.id)}/>)}
             </div>
           )}
           {sidebar_selected == "files" && (
@@ -261,7 +267,7 @@ export default function Editor() {
               )}
             </div>
           )}
-          {sidebar_selected == "messages" && <div>{<ChatsList />}</div>}
+          {sidebar_selected == "messages" && <div>{<ChatsList userID={user_chat_id}/>}</div>}
         </div>
         <div className="editor">
           <textarea

@@ -4,9 +4,10 @@ import axios from "axios";
 import ChatCard from "../../components/ChatCard/ChatCard";
 import Conversation from "../../components/Conversation/Conversation";
 
-const ChatsList = ({ onChatClick }) => {
+const ChatsList = ({ onChatClick, userID }) => {
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
+  const [direct_chat_id, setDirectChatID] = useState();
 
   const handleChatClick = (chat_id) => {
     setActiveChat(chat_id);
@@ -24,11 +25,16 @@ const ChatsList = ({ onChatClick }) => {
         .then((response) => setChats(response.data))
         .catch((error) => console.log(error));
     }
+
+    if(userID) {
+      setDirectChatID(userID)
+      console.log('direcctt', userID)
+    }
   }, []);
 
   return (
     <div>
-      {activeChat ? null : (
+      {activeChat || userID ? null : (
         <>
           <h2>Chats</h2>
           {chats.map((chat) => (
@@ -41,11 +47,18 @@ const ChatsList = ({ onChatClick }) => {
         </>
       )}
 
-      {activeChat && (
+      {activeChat && !direct_chat_id && (
         <Conversation
           chat_id={chats.find((chat) => chat.id === activeChat)?.id}
           setActiveChat={setActiveChat}
         />
+      )}
+
+      {direct_chat_id && (
+        <Conversation
+        chat_id={userID}
+        setActiveChat={setActiveChat}
+      />
       )}
     </div>
   );
