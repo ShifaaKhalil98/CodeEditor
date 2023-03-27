@@ -8,7 +8,7 @@ import login_regiter from  "../../images/login_regiter.png";
 export default function Login_Register(){
     return(
         <div className="flex">
-            <Login/>    
+            <Register/>    
           <img className="background_image" src={login_regiter}/>
             
         </div>
