@@ -2,8 +2,11 @@ import { useRef, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
-import Editor from "../../pages/Editor/Editor";
-const Register = () => {
+import Login  from "../Login";
+import Login_Register from "../../pages/Login_Register";
+const Register = (props) => {
+  const {togle_component}=props;
+
   const navigate = useNavigate();
 const userRef = useRef();
 const errRef = useRef();
@@ -130,9 +133,7 @@ const registerAction = (e) => {
               Sign Up
             </button>
           </form>
-          <a href={"/Editor"}>
-         Already registered?
-         </a>
+          <button onClick={togle_component}>already registered</button>
         </section>
         
      
