@@ -5,9 +5,15 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   const signout = () => {
+    localStorage.getItem("token");
     axios
-      .post("http://localhost:8000/api/logout")
+      .post("http://localhost:8000/api/logout", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
+        localStorage.removeItem("token");
         navigate.push("../../pages/Editor");
       })
       .catch((err) => {
