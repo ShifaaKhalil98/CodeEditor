@@ -1,12 +1,11 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import login_regiter from  "../../images/login_regiter.png";
-
+import login_regiter from "../../images/login_regiter.png";
 import "./index.css";
+
 const Login = (props) => {
   const { togle_component } = props;
-  // const userRef = useRef();
   const errRef = useRef();
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
@@ -17,9 +16,7 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // useEffect(() => {
-  //   userRef.current.focus();
-  // }, []);
+
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd]);
@@ -42,74 +39,67 @@ const Login = (props) => {
       .post("http://localhost:8000/api/login", login_data)
       .then((r) => {
         console.log(r);
+        localStorage.setItem("name", r.data.user.name);
         setIsSubmitting(false);
         localStorage.setItem("token", r.data.authorisation.token);
-        navigate("/editor", { state: { name:'sabaoon'}});
+        navigate("/editor");
       })
-      .catch((e) => {
-        // setIsSubmitting(false);
-        // if (e.response.data.errors != undefined) {
-        //   setValidationErrors(e.response.data.errors);
-        // }
-        // if (e.response.data.error != undefined) {
-        //   setValidationErrors(e.response.data.error);
-        // }
-      });
+      .catch((e) => {});
   };
+
   return (
     <>
       {success ? (
         <section className="section">
           <h1>You are logged in!</h1>
           <br />
-          <p>{/* <a href="#">Go to Home</a> */}</p>
         </section>
       ) : (
         <div className="login_component">
           <div className="login_form_comp">
-        <section>
-          <p
-            ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
-            aria-live="assertive"
-          >
-            {errMsg}
-          </p>
-          <h1 className="title">Sign In</h1>
-          <form
-            onSubmit={(e) => {
-              loginAction(e);
-            }}
-            className="login"
-          >
-            <label>Email:</label>
-            <input
-              type="email"
-              id="eamil"
-              autoComplete="off"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-              required
-            />
-            <label>Password:</label>
-            <input
-              type="password"
-              id="password"
-              onChange={(e) => setPwd(e.target.value)}
-              value={pwd}
-              required
-            />
-            <button className="sign_in">Sign In</button>
-          </form>
-          <button onClick={togle_component}> register </button>
-        </section>
-        </div>
-        <div className="imgdiv"><img className="background_image" src={login_regiter}/></div>
+            <section>
+              <p
+                ref={errRef}
+                className={errMsg ? "errmsg" : "offscreen"}
+                aria-live="assertive"
+              >
+                {errMsg}
+              </p>
+              <h1 className="title">Sign In</h1>
+              <form
+                onSubmit={(e) => {
+                  loginAction(e);
+                }}
+                className="login"
+              >
+                <label>Email:</label>
+                <input
+                  type="email"
+                  id="eamil"
+                  autoComplete="off"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  required
+                />
+                <label>Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  onChange={(e) => setPwd(e.target.value)}
+                  value={pwd}
+                  required
+                />
+                <button className="sign_in">Sign In</button>
+              </form>
+              <button onClick={togle_component}> register </button>
+            </section>
+          </div>
+          <div className="imgdiv">
+            <img className="background_image" src={login_regiter} />
+          </div>
         </div>
       )}
-     
     </>
-    
   );
 };
 
