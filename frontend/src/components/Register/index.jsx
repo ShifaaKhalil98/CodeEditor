@@ -8,8 +8,10 @@ const Register = (props) => {
   const { togle_component } = props;
 
   const navigate = useNavigate();
+
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
+  const [pwdFocus, setPwdFocus] = useState(false);
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
@@ -26,7 +28,7 @@ const Register = (props) => {
       localStorage.getItem("token") != "" &&
       localStorage.getItem("token") != null
     ) {
-      navigate("/dashboard");
+      navigate("/editor");
     }
   }, []);
 
@@ -40,11 +42,11 @@ const Register = (props) => {
       password_confirmation: matchPwd,
     };
     axios
-      .post("http://localhost:8000/api/login", payload)
+      .post("http://localhost:8000/api/register", payload)
       .then((r) => {
         setIsSubmitting(false);
         localStorage.setItem("token", r.data.authorisation.token);
-        navigate("/dashboard");
+        navigate("/editor");
       })
       .catch((e) => {
         setIsSubmitting(false);
