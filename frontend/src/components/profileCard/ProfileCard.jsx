@@ -23,7 +23,11 @@ const ProfileCard = ({ pic = null }) => {
       {user && (
         <div key={user.id}>
           <div className="image">
-            <img className="img" src={user.profile_picture} alt="User" />
+            {user.profile_picture ? (
+              <img className="img" src={user.profile_picture} alt="User" />
+            ) : (
+              <img className="img" src={pic} alt="User" />
+            )}
           </div>
           <div className="name">
             <h2>{user.name.charAt(0).toUpperCase() + user.name.slice(1)}</h2>
