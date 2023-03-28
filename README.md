@@ -16,13 +16,13 @@ Pyscribe is a code editor that allows users to sign in, sign up, compile Python 
 
 ## User Stories
 
-- As a user, I can sign up with my email and password to create an account.
-- As a customer, I want to be able to reset my password on an online shopping website if I forget it, so that I can regain access to my account.
-- As a user, I can sign in with my email and password to access my account.
-- As a user, I can compile Python code in the editor.
-- As a user, I can save and download files from the editor.
-- As a user, I can upload an image to my profile.
-- As a user, I can chat with other developers in real-time.
+- As a user, I want to sign up with my email and password to create an account.
+- As a customer, I want to be able to reset my password so that if I forget it, I can regain access to my account.
+- As a user, I want to sign in with my email and password to access my account.
+- As a user, I want to compile Python code in the editor.
+- As a user, I want to save and download files from the editor.
+- As a user, I want to upload an image to my profile.
+- As a user, I want to chat with other developers in real-time.
 
 ## Admin Stories
 
