@@ -21,7 +21,6 @@ const Register = (props) => {
   const [name, setName] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [pwdFocus, setPwdFocus] = useState(false);
 
   useEffect(() => {
     if (

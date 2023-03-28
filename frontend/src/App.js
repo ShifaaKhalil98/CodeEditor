@@ -4,10 +4,9 @@ import { Routes, Route } from "react-router-dom";
 import Editor from "./pages/Editor/Editor";
 import UserList from "./pages/Admin";
 import Profile from "./pages/profile/profile";
-import React from "react";  
-import Login_Register from "./pages/Login_Register/index";
+import React from "react";
 import Landing from "./pages/landing/landing";
-// import ReactDOM from "react-dom";
+import Login_Register from "./pages/Login_Register/index";
 
 function App() {
   return (
@@ -16,8 +15,7 @@ function App() {
       <Route path="/editor" element={<Editor />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/admin" element={<UserList />} />
-      <Route path="/login" element={<Login_Register />} />
-      {/* <Route path="*" element={<NotFound />} /> */}
+      <Route path="/login_register" element={<Login_Register />} />
     </Routes>
   );
 }
