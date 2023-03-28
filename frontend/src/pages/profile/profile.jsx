@@ -71,13 +71,46 @@ const Profile = () => {
       });
   };
   // didndt test the reponse data
+  // const handleImageChange = (event) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     setImageData(reader.result);
+  //     axios
+  //       .post(
+  //         `${baseUrl}/api/uploadImage`,
+  //         { imageData: reader.result },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       )
+  //       .then((response) => {
+  //         setImageData(response.data.image_url);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImageData(reader.result);
+      const imageData = reader.result;
       axios
-        .post(`${baseUrl}/api/uploadImage`, { imageData: reader.result })
+        .post(
+          `${baseUrl}/api/uploadImage`,
+          { imageData },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
         .then((response) => {
           setImageData(response.data.image_url);
         })
@@ -87,6 +120,7 @@ const Profile = () => {
     };
     reader.readAsDataURL(file);
   };
+
   return (
     <div>
       <div className="nav-main">
