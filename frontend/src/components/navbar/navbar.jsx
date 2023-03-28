@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./style.css";
 const token = localStorage.getItem("token");
+console.log(token);
 const Navbar = () => {
   const navigate = useNavigate();
   const signout = () => {
@@ -12,6 +14,7 @@ const Navbar = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         localStorage.removeItem("token");
         navigate.push("../../pages/Editor");
       })

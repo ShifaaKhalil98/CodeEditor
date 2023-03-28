@@ -39,6 +39,7 @@ const Login = (props) => {
       .post("http://localhost:8000/api/login", login_data)
       .then((r) => {
         console.log(r);
+        localStorage.setItem("name", r.data.user.name);
         setIsSubmitting(false);
         localStorage.setItem("token", r.data.authorisation.token);
         navigate("/editor", { state: { name: "sabaoon" } });
@@ -80,14 +81,13 @@ const Login = (props) => {
                 className="login"
               >
                 <label>Email:</label>
-                <input   
+                <input
                   type="email"
                   id="eamil"
                   autoComplete="off"
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
-                  placeholder="Enter Email"
-              required
+                  required
                 />
                 <label>Password:</label>
                 <input
@@ -95,8 +95,7 @@ const Login = (props) => {
                   id="password"
                   onChange={(e) => setPwd(e.target.value)}
                   value={pwd}
-                  placeholder="Enter password"
-              required
+                  required
                 />
                 <div className="buttons_div">
                   <button className="sign_in">Sign In</button>
