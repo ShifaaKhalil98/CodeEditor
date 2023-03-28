@@ -29,15 +29,6 @@ Pyscribe is a code editor that allows users to sign in, sign up, compile Python 
 - As an admin, I want to be able to view the users accounts so that I can ensure that the website is providing a safe and secure user experience.
 
 
-## Implementation
-
-| Section         | Screenshot                                |
-| --------------- | ----------------------------------------- |
-| Home Page       | ![Home Page](./assets/home.png)           |
-| Product Page    | ![Product Page](./assets/products.png)    |
-| Login Page      | ![Login Page](./assets/login.png)         |
-| Signup Page     | ![Signup Page](./assets/register.png)     |
-| Product Details | ![Product Details](./assets/products.png) |
 
 ## How to Run
 
