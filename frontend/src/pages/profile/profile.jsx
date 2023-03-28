@@ -12,7 +12,7 @@ const token = localStorage.getItem("token");
 
 function ProfilePictureUpload() {
   const baseUrl = "http://localhost:8000";
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [fileName, setfileName] = useState(null);
   const [files, setFiles] = useState([]);
@@ -69,6 +69,10 @@ function ProfilePictureUpload() {
       });
   };
 
+  const handleEditorNavigate = () => {
+    navigate("/editor");
+  };
+
   const handleFileOpen = (fileName) => {
     navigate.push(`../Editor/Editor/${fileName}`);
   };
@@ -94,7 +98,6 @@ function ProfilePictureUpload() {
         }
       );
       console.log(response.data);
-      // setFile(response.data.file);
     } catch (error) {
       console.error(error);
     }
@@ -107,6 +110,9 @@ function ProfilePictureUpload() {
       </div>
       <div className="main flex jc-center ai-cneter ">
         <div className="profile-main">
+          <button className="back-button" onClick={handleEditorNavigate}>
+            {"\u2190"} back to editor
+          </button>
           <ProfileCard name={name} pic={file} />
           <div className="input-container">
             <h3>Update Profile Pic</h3>
