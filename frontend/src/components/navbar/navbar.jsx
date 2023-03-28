@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <div className="header">
-      <h1>CODING</h1>
+      <h1>CodeVerse</h1>
       <span onClick={signout}>Sign out</span>
     </div>
   );

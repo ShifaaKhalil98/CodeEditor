@@ -125,6 +125,18 @@ html {
   cursor: pointer;
 }
 
+.user-photo {
+  width: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.filelist-container {
+  overflow-y: scroll;
+  height: 100%;
+}
+
 .console-open span,
 .console span {
   cursor: pointer;
@@ -209,7 +221,6 @@ button img {
 .chat-container {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   padding-right: 20px;
   height: 50vh;
   color: white;
@@ -218,12 +229,11 @@ button img {
 .message-form input {
   width: 97%;
 }
-.chat-container::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 8px;
   height: 2px;
-  /* display: none; */
 }
-.chat-container::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: var(--dark-grey);
 }
 .sent {

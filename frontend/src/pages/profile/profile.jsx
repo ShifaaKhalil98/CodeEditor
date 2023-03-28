@@ -7,20 +7,22 @@ import "../../../src/base.css";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import Editor from "../Editor/Editor";
+
 const token = localStorage.getItem("token");
-const Profile = () => {
+
+function ProfilePictureUpload() {
   const baseUrl = "http://localhost:8000";
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [fileName, setfileName] = useState(null);
   const [files, setFiles] = useState([]);
-  const [imageData, setImageData] = useState(null);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     const storedName = localStorage.getItem("name");
     const storedPic = localStorage.getItem("pic");
     if (storedName) setName(storedName);
-    if (storedPic) setImageData(storedPic);
+    if (storedPic) setFile(storedPic);
   }, []);
 
   useEffect(() => {
@@ -44,10 +46,6 @@ const Profile = () => {
     getFiles();
   }, []);
 
-  const handleFileOpen = (fileName) => {
-    navigate.push(`../Editor/Editor/${fileName}`);
-  };
-
   const handleFileDelete = (id) => {
     axios
       .delete(`${baseUrl}/api/deletefile/${id}`, {
@@ -70,55 +68,39 @@ const Profile = () => {
         console.error(error);
       });
   };
-  // didndt test the reponse data
-  // const handleImageChange = (event) => {
-  //   const file = event.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     setImageData(reader.result);
-  //     axios
-  //       .post(
-  //         `${baseUrl}/api/uploadImage`,
-  //         { imageData: reader.result },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       )
-  //       .then((response) => {
-  //         setImageData(response.data.image_url);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const imageData = reader.result;
-      axios
-        .post(
-          `${baseUrl}/api/uploadImage`,
-          { imageData },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        )
-        .then((response) => {
-          setImageData(response.data.image_url);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    reader.readAsDataURL(file);
+
+  const handleEditorNavigate = () => {
+    navigate("/editor");
+  };
+
+  const handleFileOpen = (fileName) => {
+    navigate.push(`../Editor/Editor/${fileName}`);
+  };
+
+  const handleFileInputChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleUploadClick = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/uploadImage",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -128,10 +110,14 @@ const Profile = () => {
       </div>
       <div className="main flex jc-center ai-cneter ">
         <div className="profile-main">
-          <ProfileCard name={name} pic={imageData} />
+          <button className="back-button" onClick={handleEditorNavigate}>
+            {"\u2190"} back to editor
+          </button>
+          <ProfileCard name={name} pic={file} />
           <div className="input-container">
             <h3>Update Profile Pic</h3>
-            <input type="file" onChange={handleImageChange} />
+            <input type="file" onChange={handleFileInputChange} />
+            <button onClick={handleUploadClick}>Upload</button>
           </div>
         </div>
         <div className="files-main ">
@@ -149,5 +135,6 @@ const Profile = () => {
       </div>
     </div>
   );
-};
-export default Profile;
+}
+
+export default ProfilePictureUpload;

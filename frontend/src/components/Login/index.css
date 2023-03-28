@@ -1,7 +1,7 @@
 
 .title{font-size: xx-large;
-margin-top: 150px;}
-.section{
+}
+    .section{
     width: 100%;
     max-width: 420px;
     min-height: 400px;
@@ -38,6 +38,7 @@ label {
     justify-content: space-evenly;
     flex-grow: 1;
     padding-bottom: 1rem;
+    
 
    
 
@@ -68,15 +69,53 @@ input[type='password']{
     background-color:#09ffa7;
     color: black;
     font-weight: bolder;
+    transition-duration: 0.4s;
   }
   a{margin-top: -60px;
     color: #09ffa7;
 }
 .login_component{
     display: flex;
-    flex-direction: row;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
 
 }
-.background_image{
+.login_form_comp{
+    margin-left: 170px;
+    
+
+}
+.btnRegister{
+    background-color: transparent;
+    color: white;
+    border: none;
+
+
+}
+.sign_in:hover{
+    background-color: #7cab9b;
+
+}
+.sign_in:active{
+    background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.buttons_div{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.background_image1{
+    object-fit: scale-down;
+    
+    height: 100vh;
+}
+.imgdivl{
     width: 50%;
+  
+}
+::placeholder{
+    color: rgb(54, 53, 53);
 }
