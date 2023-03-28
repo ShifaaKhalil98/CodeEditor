@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom'
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Editor.css";
 import messages_pic from "../../images/bubble.png";
@@ -26,7 +26,7 @@ export default function Editor() {
   const [search_res, setSearchRes] = useState([]);
   const [is_readonly, setReadOnly] = useState(true);
   const [filename, setFilename] = useState("");
-  const [current_file_id, setCurrentFileID] = useState()
+  const [current_file_id, setCurrentFileID] = useState();
   const [user_files, setUserFiles] = useState();
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [user_chat_id, setUserChatID] = useState();
@@ -35,45 +35,48 @@ export default function Editor() {
 
   useEffect(() => {
     getFiles();
-    
-    if(token) {
-      refresh()
-      console.log('called')
+
+    if (token) {
+      refresh();
+      console.log("called");
     }
   }, []);
 
   useEffect(() => {
-    if(sidebar_selected == 'files') {
-      getFiles()
+    if (sidebar_selected == "files") {
+      getFiles();
     }
-  }, [sidebar_selected])
+  }, [sidebar_selected]);
 
   const refresh = () => {
     axios
-      .post("http://localhost:8000/api/refresh", {}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        "http://localhost:8000/api/refresh",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
-        console.log(res)
-        setToken(res.data.authorisation.token)
-        localStorage.setItem('token', res.data.authorisation.token)
-        setSignedIn(true)
-        setUserPhoto(res.data.user.profile_picture)
+        console.log(res);
+        setToken(res.data.authorisation.token);
+        localStorage.setItem("token", res.data.authorisation.token);
+        setSignedIn(true);
+        setUserPhoto(res.data.user.profile_picture);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
-
+  };
 
   const handleSave = () => {
     if (token) {
       const code_data = new FormData();
       code_data.append("content", code);
       filename && code_data.append("name", filename);
-      current_file_id && code_data.append('id', current_file_id)
+      current_file_id && code_data.append("id", current_file_id);
       axios
         .post("http://localhost:8000/api/savefile", code_data, {
           headers: {
@@ -82,13 +85,13 @@ export default function Editor() {
         })
         .then((res) => {
           setPopupOpen(false);
-          if(current_file_id) {
+          if (current_file_id) {
             setSaved(true);
             setTimeout(() => {
               setSaved(false);
             }, 2000);
           }
-          getFiles()
+          getFiles();
         })
         .catch((err) => {
           console.log(err);
@@ -99,8 +102,8 @@ export default function Editor() {
   const handleSaveClick = () => {
     if (token) {
       if (code.length > 0) {
-        if(current_file_id) {
-          handleSave()
+        if (current_file_id) {
+          handleSave();
         } else {
           setFilename("");
           setPopupOpen(true);
@@ -113,22 +116,22 @@ export default function Editor() {
 
   const openFile = (id, content) => {
     setCode(content);
-    setCurrentFileID(id)
+    setCurrentFileID(id);
   };
 
   const deleteFile = (id) => {
     axios
-        .delete(`http://localhost:8000/api/deletefile/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => {
-          getFiles()
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      .delete(`http://localhost:8000/api/deletefile/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        getFiles();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -170,7 +173,7 @@ export default function Editor() {
     (selected == sidebar_selected || !sidebar_open) &&
       setSidebarOpen(!sidebar_open);
     setSidebarSelected(selected);
-    setUserChatID()
+    setUserChatID();
   };
 
   const compile = (input) => {
@@ -221,18 +224,22 @@ export default function Editor() {
   };
 
   const messageHandle = (id) => {
-    setSidebarSelected('messages')
-    setUserChatID(id)
-  }
+    setSidebarSelected("messages");
+    setUserChatID(id);
+  };
 
   return (
     <div>
       <div className="header">
-        <h1>CodeVerse</h1>
+        <h1>PyScribe</h1>
         {signed_in ? (
-          <img src={user_photo} className="user-photo" onClick={() => navigate('/profile')}/>
+          <img
+            src={user_photo}
+            className="user-photo"
+            onClick={() => navigate("/profile")}
+          />
         ) : (
-          <span onClick={() => navigate('/Login_Register')}>Sign In</span>
+          <span onClick={() => navigate("/Login_Register")}>Sign In</span>
         )}
       </div>
       <div className="editor-container">
@@ -263,7 +270,12 @@ export default function Editor() {
                 placeholder="Search"
               />
               {search_res &&
-                search_res.map((user) => <UserCard name={user.name} messageHandle={() => messageHandle(user.id)}/>)}
+                search_res.map((user) => (
+                  <UserCard
+                    name={user.name}
+                    messageHandle={() => messageHandle(user.id)}
+                  />
+                ))}
             </div>
           )}
           {sidebar_selected == "files" && (
@@ -283,7 +295,9 @@ export default function Editor() {
               )}
             </div>
           )}
-          {sidebar_selected == "messages" && <div>{<ChatsList userID={user_chat_id}/>}</div>}
+          {sidebar_selected == "messages" && (
+            <div>{<ChatsList userID={user_chat_id} />}</div>
+          )}
         </div>
         <div className="editor">
           <textarea
@@ -305,8 +319,13 @@ export default function Editor() {
                 Run
               </button>
             )}
-            {saved ? <button type="button">Saved</button> : 
-            <button type="button" onClick={handleSaveClick}>Save</button>}
+            {saved ? (
+              <button type="button">Saved</button>
+            ) : (
+              <button type="button" onClick={handleSaveClick}>
+                Save
+              </button>
+            )}
 
             <button type="button" onClick={() => downloadFile()}>
               Download

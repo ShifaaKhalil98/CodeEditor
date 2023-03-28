@@ -45,7 +45,9 @@ function UserList() {
           {admin.map((ad) => (
             <div key={ad.id}>
               <img src={ad.profile_picture} alt="Admin" />
-              <h2>{ad.name.charAt(0).toUpperCase() + ad.name.slice(1)}</h2>
+              <h2 className="admin-name">
+                {ad.name.charAt(0).toUpperCase() + ad.name.slice(1)}
+              </h2>
             </div>
           ))}
         </div>

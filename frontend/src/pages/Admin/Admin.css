@@ -16,7 +16,7 @@ html {
   flex-basis: 55%;
   height: 50vh;
   overflow-y: scroll;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 .user-list::-webkit-scrollbar {
   width: 8px;
@@ -35,7 +35,7 @@ th {
 table {
   border: 1px solid;
   border-collapse: collapse;
-  color: black;
+  color: rgb(255, 255, 255);
   margin: auto;
   width: 90%;
 }
@@ -48,6 +48,9 @@ table {
   padding: 0 30px;
 }
 .admin-card img {
-  height: 150px;
+  height: 250px;
   border-radius: 75px;
+}
+.admin-name {
+  font-size: 2rem;
 }

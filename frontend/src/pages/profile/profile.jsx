@@ -74,7 +74,7 @@ function ProfilePictureUpload() {
   };
 
   const handleFileOpen = (fileName) => {
-    navigate.push(`../Editor/Editor/${fileName}`);
+    navigate(`/editor/${fileName}`);
   };
 
   const handleFileInputChange = (event) => {
@@ -126,7 +126,7 @@ function ProfilePictureUpload() {
               <File
                 key={file.id}
                 fileName={file.name}
-                openeditor={() => handleFileOpen(fileName)}
+                openeditor={() => handleFileOpen(file.name)}
                 deleteFile={() => handleFileDelete(file.id)}
               />
             ))}

@@ -41,10 +41,8 @@ const Landing = () => {
 
           <ul className="circles">
             <li>Debug your code in real-time with advanced debugging tools.</li>
-            <li>Create beautiful designs with powerful CSS3 styling tools.</li>
-            <li>
-              Collaborate with your team using built-in version control tools.
-            </li>
+            <li>Compile,Save and Download your code in python</li>
+            <li>Chat with other devs using built in chat tool.</li>
           </ul>
         </div>
       </div>
