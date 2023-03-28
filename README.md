@@ -4,8 +4,8 @@ Pyscribe is a code editor that allows users to sign in, sign up, compile Python 
 
 ## Team Members
 
-- Ayman Hajjar - Team Leader
-- Shifaa Khalil
+- Shifaa Khalil - Team Leader
+- Ayman Hajjar
 - Salman Moussa
 - Mohamad Shoumar
 
