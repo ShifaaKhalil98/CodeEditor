@@ -84,7 +84,7 @@ const Conversation = ({ chat_id, setActiveChat }) => {
           <div
             key={message.id}
             className={`message ${
-              message.sender_id === 4 ? "sent" : "received"
+              message.sender_id === receiver.id ? "sent" : "received"
             }`}
           >
             <h4>{message.content}</h4>
