@@ -60,16 +60,13 @@ class UserDataController extends Controller{
 
 function uploadImage(Request $request) {
     $user = Auth::user();
-
-    if ($request->hasFile('image')) {
-        
+    if ($request->hasFile('image')) {        
         $file = $request->file('image');
         $fileName = $user->id . '_' . time() . '.' . $file->getClientOriginalExtension();
         $file->storeAs('public/profile-pictures', $fileName);
         $imageUrl = url(Storage::url('public/profile-pictures/' . $fileName));
         $user->profile_picture = $imageUrl;
         $user->save();
-
         return response()->json(['success' => true, 'message' => 'Profile picture uploaded successfully.']);
     } else {
         return response()->json(['success' => false, 'message' => 'No file uploaded.']);

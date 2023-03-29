@@ -239,7 +239,7 @@ export default function Editor() {
             onClick={() => navigate("/profile")}
           />
         ) : (
-          <span onClick={() => navigate("/Login_Register")}>Sign In</span>
+          <span onClick={() => navigate("/login")}>Sign In</span>
         )}
       </div>
       <div className="editor-container">

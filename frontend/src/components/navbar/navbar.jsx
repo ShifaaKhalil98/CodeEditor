@@ -8,7 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const signout = () => {
     localStorage.clear();
-    navigate("/login_register");
+    navigate("/login");
   };
 
   return (

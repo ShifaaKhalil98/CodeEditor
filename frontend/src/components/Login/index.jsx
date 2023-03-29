@@ -42,17 +42,13 @@ const Login = (props) => {
         localStorage.setItem("name", r.data.user.name);
         setIsSubmitting(false);
         localStorage.setItem("token", r.data.authorisation.token);
-        navigate("/editor", { state: { name: "sabaoon" } });
+        {
+          r.data.user.user_type == "admin"
+            ? navigate("/admin")
+            : navigate("/editor");
+        }
       })
-      .catch((e) => {
-        //    setIsSubmitting(false);
-        //   if (r.response.data.errors != undefined) {
-        //     setValidationErrors(e.response.data.errors);
-        //    }
-        //    if (r.response.data.error != undefined) {
-        //      setValidationErrors(e.response.data.error);
-        //   }
-      });
+      .catch((e) => {});
   };
 
   return (

@@ -2,7 +2,6 @@ import "./FileCard.css";
 import React, { useState, useEffect } from "react";
 
 const FileCard = ({ name, id, content, openFile, deleteFile }) => {
-
   return (
     <div className="filecard-container">
       <div className="file-details">

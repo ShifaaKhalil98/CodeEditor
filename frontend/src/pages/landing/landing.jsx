@@ -15,7 +15,7 @@ const Landing = () => {
       <div className="section1">
         <div className="main-landing">
           <p className="writeRunDebug">Write, Run, Debug</p>
-          <div className="letsCode">
+          <div onClick={openeditor} className="letsCode">
             <p className="printLetsCode">print(“let’s code”)</p>
           </div>
         </div>

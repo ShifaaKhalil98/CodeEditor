@@ -9,7 +9,6 @@ const File = ({ fileName, openeditor, deleteFile }) => {
         <h2>{fileName}</h2>
       </div>
       <div className="btns flex ai-center ">
-        <button onClick={() => openeditor(fileName)}>Open</button>
         <button onClick={() => deleteFile(fileName)}>Delete</button>
       </div>
     </div>
@@ -17,11 +16,3 @@ const File = ({ fileName, openeditor, deleteFile }) => {
 };
 
 export default File;
-// function delete(axios)
-// function open(go another route)
-//   const openeditor=()=>{
-//     axios.
-//   }
-// const deleteFile=()=>{
-//     axios.
-//   }

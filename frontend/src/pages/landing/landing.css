@@ -35,6 +35,7 @@
   transform: scale(1.1);
   filter: drop-shadow(10px 10px 10px #09ffa7);
   transition: all 400ms ease-in-out;
+  cursor: pointer;
 }
 .printLetsCode {
   color: black;
